@@ -23,7 +23,7 @@ public class Login extends AppCompatActivity {
     String emailText,passwordText;
     Button login;
     FirebaseAuth mAuth;
-    String newVariabl7;
+    String newVariabl8;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
