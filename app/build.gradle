@@ -43,5 +43,6 @@ dependencies {
     implementation 'com.google.firebase:firebase-firestore:21.0.0'
     implementation 'com.android.support:appcompat-v7:22.0.0'
     implementation 'com.github.TutorialsAndroid:KAlertDialog:v6.0.19'
+    implementation 'com.github.fabriciorod:material-buttons:1.2'
 
 }
