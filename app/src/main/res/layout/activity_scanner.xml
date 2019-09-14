@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:background="#000000"
+        android:orientation="vertical"
+        android:paddingBottom="20dp"
+        >
+
+
+        <!--<AutoCompleteTextView-->
+            <!--android:hint="Team Name"-->
+            <!--android:textColorHint="@color/colorAccent"-->
+            <!--android:layout_marginLeft="30dp"-->
+            <!--android:layout_marginRight="30dp"-->
+            <!--android:layout_marginTop="20dp"-->
+            <!--android:layout_marginBottom="10dp"-->
+            <!--android:layout_width="fill_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:ems="10"-->
+            <!--android:imeOptions="actionSearch"-->
+            <!--android:inputType="textAutoComplete|textAutoCorrect"-->
+            <!--android:textColor="@color/colorAccent"-->
+            <!--android:id="@+id/teamNames">-->
+        <!--</AutoCompleteTextView>-->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/etPasswordLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_marginTop="36dp"
+            android:paddingRight="20dp"
+
+            android:hint="   Enter Team Names"
+            android:textColorHint="@color/colorAccent"
+            app:boxStrokeColor="@color/colorAccent"
+            tools:ignore="MissingConstraints">
+
+
+            <AutoCompleteTextView
+                android:id="@+id/teamNames"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
+                android:inputType="text"
+                android:padding="16dp"
+                android:textColor="#ffff" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+    </LinearLayout>
+
+
+    <me.dm7.barcodescanner.zxing.ZXingScannerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/zxscan"/>
+
+    <FrameLayout
+        android:id="@+id/fragment_back_stack_frame_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+
+
+</LinearLayout>
