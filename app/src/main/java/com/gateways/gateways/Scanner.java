@@ -29,6 +29,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.MenuItemCompat;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.Priority;
@@ -70,7 +71,7 @@ public class Scanner extends AppCompatActivity implements ZXingScannerView.Resul
 
         teamName = new ArrayList<String>();//Creating arraylist
         teamId  = new ArrayList<String>();//Creating arraylist
-        getTeamNames();
+        //getTeamNames();
         Intent intent = getIntent();
         Bundle bd = intent.getExtras();
         if(bd != null)
@@ -89,99 +90,34 @@ public class Scanner extends AppCompatActivity implements ZXingScannerView.Resul
 //actionBar.setDisplayShowTitleEnabled(false);
         
 
-        LayoutInflater inflator = (LayoutInflater) this
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View v = inflator.inflate(R.layout.actionbar, null);
-
-        actionBar.setCustomView(v);
-
-        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_dropdown_item_1line, teamName);
-        AutoCompleteTextView textView = findViewById(R.id.teamNames);
-        textView.setAdapter(adapter);
-        textView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String teamNamee = parent.getItemAtPosition(position).toString();
-                Toast.makeText(Scanner.this, "here"+adapter.getPosition(teamNamee), Toast.LENGTH_SHORT).show();
-                int positionn = teamName.indexOf(teamNamee);
-                String teamIdd = teamId.get(positionn);
-
-                // create Toast with user selected value
-//
-                Toast.makeText(Scanner.this, "id-->"+teamIdd, Toast.LENGTH_SHORT).show();
-                PeopleListRegistration addBottomDialogFragment =
-                        PeopleListRegistration.newInstance();
-                Bundle bundle = new Bundle();
-                bundle.putString("teamIdd", teamIdd);
-                bundle.putString("role", role);
-                bundle.putString("event", event);
-                bundle.putString("submittedBy", submittedBy);
-                addBottomDialogFragment.setArguments(bundle);
-                addBottomDialogFragment.setCancelable(false);
-
-                //addBottomDialogFragment.set
-                addBottomDialogFragment.show(getSupportFragmentManager(),
-                        "add_photo_dialog_fragment");
-
-////                addBottomDialogFragment.readApiRequest(teamIdd);
-            }
-        });
 
 
         myVib = (Vibrator) this.getSystemService(VIBRATOR_SERVICE);
         mScannerView = findViewById(R.id.zxscan);
-//        mScannerView = new ZXingScannerView(this) {
-//
-//            @Override
-//            protected IViewFinder createViewFinderView(Context context) {
-//                return new CustomZXingScannerView(context);
-//            }
-//
-//        };
         permission();
         AndroidNetworking.initialize(getApplicationContext());
-//        zXingScannerView =new ZXingScannerView(getApplicationContext());
-//        setContentView(zXingScannerView);
-
-
-        //mScannerView.addView(m);
-
-
         mScannerView.setResultHandler(this);
-
-
         mScannerView.startCamera();
-//        zXingScannerView.setResultHandler(this);
-//        zXingScannerView.startCamera();
+        final SwipeRefreshLayout pullToRefresh = findViewById(R.id.pullToRefresh);
+        pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                Toast.makeText(Scanner.this, "hua", Toast.LENGTH_SHORT).show();
+                getTeamNames();
+                pullToRefresh.setRefreshing(false);
+            }
+        });
 
     }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-
-            MenuInflater inflater = getMenuInflater();
-
-            inflater.inflate(R.menu.menu, menu);
-
-            return true;
-
-
-    }
-
     private void getTeamNames() {
-
-
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("type", "select");
             jsonObject.put("query", "select team_name,unique_team_code from teams where unique_team_code in (select unique_team_code from participants) ;");
 
-
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
         AndroidNetworking.post("http://Gateways-env.d9kekdzq4q.ap-south-1.elasticbeanstalk.com/get")
                 .addJSONObjectBody(jsonObject) // posting json
                 .setTag("test")
@@ -197,6 +133,45 @@ public class Scanner extends AppCompatActivity implements ZXingScannerView.Resul
                                 JSONObject jsonobject = jsonarray.getJSONObject(i);
                                 teamName.add(jsonobject.getString("team_name"));
                                 teamId.add(jsonobject.getString("unique_team_code"));
+//
+//                                LayoutInflater inflator = (LayoutInflater) this
+//                                        .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+//                                View v = inflator.inflate(R.layout.actionbar, null);
+//
+//                                actionBar.setCustomView(v);
+
+                                final ArrayAdapter<String> adapter = new ArrayAdapter<String>(Scanner.this,
+                                        android.R.layout.simple_dropdown_item_1line, teamName);
+                                AutoCompleteTextView textView = findViewById(R.id.teamNames);
+                                textView.setAdapter(adapter);
+                                textView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                    @Override
+                                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                        String teamNamee = parent.getItemAtPosition(position).toString();
+                                        Toast.makeText(Scanner.this, "here"+adapter.getPosition(teamNamee), Toast.LENGTH_SHORT).show();
+                                        int positionn = teamName.indexOf(teamNamee);
+                                        String teamIdd = teamId.get(positionn);
+
+                                        // create Toast with user selected value
+//
+                                        Toast.makeText(Scanner.this, "id-->"+teamIdd, Toast.LENGTH_SHORT).show();
+                                        PeopleListRegistration addBottomDialogFragment =
+                                                PeopleListRegistration.newInstance();
+                                        Bundle bundle = new Bundle();
+                                        bundle.putString("teamIdd", teamIdd);
+                                        bundle.putString("role", role);
+                                        bundle.putString("event", event);
+                                        bundle.putString("submittedBy", submittedBy);
+                                        addBottomDialogFragment.setArguments(bundle);
+                                        addBottomDialogFragment.setCancelable(false);
+
+                                        //addBottomDialogFragment.set
+                                        addBottomDialogFragment.show(getSupportFragmentManager(),
+                                                "add_photo_dialog_fragment");
+
+////                addBottomDialogFragment.readApiRequest(teamIdd);
+                                    }
+                                });
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
