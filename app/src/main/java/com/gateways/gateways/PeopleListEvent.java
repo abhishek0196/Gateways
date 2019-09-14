@@ -56,8 +56,9 @@ public class PeopleListEvent extends RoundedBottomSheetDialogFragment implements
     ArrayList<String> pname= new ArrayList<String>();
     String finalCollegeName;
 //    ArrayList<String> result =
-EditText title;
+    EditText title;
 
+    LinearLayout f;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -120,7 +121,6 @@ EditText title;
     }
 
     private void readApiRequest(ArrayList<String> pid) {
-        Log.v("query","length"+pid.size());
         String query = "  select participant_name,teams.college_name,participants.id from participants inner join teams on participants.unique_team_code = teams.unique_team_code where participants.id in (";
 
         for(int i = 0 ; i< pid.size();i++)
@@ -149,13 +149,10 @@ EditText title;
                 .getAsString(new StringRequestListener() {
                     @Override
                     public void onResponse(String response) {
-//                        Toast.makeText(getContext(), "response"+response, Toast.LENGTH_SHORT).show();
-//                        Log.v("data",response);
                         generateView(response);
                     }
                     @Override
                     public void onError(ANError anError) {
-//                        Toast.makeText(getContext(), "error"+pid ,Toast.LENGTH_LONG   ).show();
                         Log.v("data",anError.getErrorBody());
                     }
                 });
@@ -206,7 +203,6 @@ EditText title;
                 });
     }
 
-    LinearLayout f;
     void generateView(final String response)
     {
 

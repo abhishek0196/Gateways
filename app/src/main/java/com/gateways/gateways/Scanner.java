@@ -81,17 +81,12 @@ public class Scanner extends AppCompatActivity implements ZXingScannerView.Resul
             submittedBy = bd.getString("email");
 
         }
-        ActionBar actionBar = getSupportActionBar();
-
-        actionBar.setDisplayHomeAsUpEnabled(false);
-        actionBar.setDisplayShowCustomEnabled(true);
-        actionBar.setDisplayShowTitleEnabled(true);
-        actionBar.hide();
-//actionBar.setDisplayShowTitleEnabled(false);
-        
-
-
-
+//        ActionBar actionBar = getSupportActionBar();
+//
+//        actionBar.setDisplayHomeAsUpEnabled(false);
+//        actionBar.setDisplayShowCustomEnabled(true);
+//        actionBar.setDisplayShowTitleEnabled(true);
+//        actionBar.hide();
         myVib = (Vibrator) this.getSystemService(VIBRATOR_SERVICE);
         mScannerView = findViewById(R.id.zxscan);
         permission();
@@ -133,12 +128,6 @@ public class Scanner extends AppCompatActivity implements ZXingScannerView.Resul
                                 JSONObject jsonobject = jsonarray.getJSONObject(i);
                                 teamName.add(jsonobject.getString("team_name"));
                                 teamId.add(jsonobject.getString("unique_team_code"));
-//
-//                                LayoutInflater inflator = (LayoutInflater) this
-//                                        .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//                                View v = inflator.inflate(R.layout.actionbar, null);
-//
-//                                actionBar.setCustomView(v);
 
                                 final ArrayAdapter<String> adapter = new ArrayAdapter<String>(Scanner.this,
                                         android.R.layout.simple_dropdown_item_1line, teamName);

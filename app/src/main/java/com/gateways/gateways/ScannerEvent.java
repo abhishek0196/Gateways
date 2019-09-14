@@ -5,6 +5,7 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -36,6 +37,7 @@ import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.StringRequestListener;
+import com.developer.kalert.KAlertDialog;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
@@ -44,6 +46,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.zxing.Result;
 //import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -64,7 +67,7 @@ public class ScannerEvent extends AppCompatActivity implements ZXingScannerView.
     ListView listView;
     ArrayList<String> list;
     ArrayAdapter<String > adapter;
-
+    String teamId,participantId;
     private static final String[] COUNTRIES = new String[] { "Belgium",
             "France", "France_", "Italy", "Germany", "Spain" };
 
@@ -205,53 +208,15 @@ public class ScannerEvent extends AppCompatActivity implements ZXingScannerView.
     public void handleResult(Result result) {
         String qrResult = result.getText();
         try {
+
             String split[] = qrResult.split("_");
-            String teamId = split[0];
-            String participantId = split[1];
-            Toast.makeText(getApplicationContext(), result.getText() + "---" + teamId + "---" + participantId, Toast.LENGTH_SHORT).show();
+            Log.v("dataa",split[0]);
+             teamId = split[0];
+             participantId = split[1];
+             Log.v("dataa",teamId+"---"+participantId);
+            myVib.vibrate(50);
+           checkOnSpotRegistration(participantId);
 
-//        apiRequest();
-        myVib.vibrate(50);
-            manager = getSupportFragmentManager();
-            FragmentTransaction transaction = manager.beginTransaction();
-//            transaction.add(R.id.container,YOUR_FRAGMENT_NAME,YOUR_FRAGMENT_STRING_TAG);
-
-        Bundle bundle = new Bundle();
-        bundle.putString("role", role);
-        bundle.putString("event", event);
-//            bundle.putString("event", "Coding");
-        bundle.putString("teamId", teamId);
-        bundle.putString("participantId", participantId);
-        bundle.putString("submittedBy", submittedBy);
-//        bundle.putString("submittedBy", "dummy");
-
-        // Get FragmentManager and FragmentTransaction object.
-        // Create FragmentOne instance.
-
-            //Toast.makeText(this, "ghotalaa  "+addBottomDialogFragment, Toast.LENGTH_SHORT).show();
-
-//        FragmentUtil.printActivityFragmentList(fragmentManager);
-
-            if(mCallback!=null) {
-                mCallback.communicate(participantId);
-
-            }
-            else {
-                //Toast.makeText(this, "Created", Toast.LENGTH_SHORT).show();
-                addBottomDialogFragment =
-                        PeopleListEvent.newInstance();
-                addBottomDialogFragment.setArguments(bundle);
-                addBottomDialogFragment.setCancelable(false);
-//                Toast.makeText(this, ""+addBottomDialogFragment.getClass().getName(), Toast.LENGTH_SHORT).show();
-                transaction.addToBackStack(null);
-                transaction.commit();
-                //addBottomDialogFragment.set
-                addBottomDialogFragment.show(getSupportFragmentManager(),
-                        "event");
-            }
-
-//
-            //mCallback =this;
 
         }
         catch (Exception e)
@@ -260,11 +225,79 @@ public class ScannerEvent extends AppCompatActivity implements ZXingScannerView.
             Toast.makeText(this, "Not A Valid QR \n Scan Again  ", Toast.LENGTH_SHORT).show();
             onResume();
         }
-// set Fragmentclass Arguments
+
+    }
+
+    private void checkOnSpotRegistration(final String participantId) {
+        String query = "select pid from gateways.attendance where pid ="+participantId+";";
+
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("type", "select");
+            jsonObject.put("query", query);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        AndroidNetworking.post("http://Gateways-env.d9kekdzq4q.ap-south-1.elasticbeanstalk.com/get")
+                .addJSONObjectBody(jsonObject) // posting json
+                .setTag("test")
+                .setPriority(Priority.MEDIUM)
+                .build()
+                .getAsString(new StringRequestListener() {
+                    @Override
+                    public void onResponse(String response) {
+                        JSONArray jsonarray = null;
+
+                        Toast.makeText(ScannerEvent.this, "aaya"+response, Toast.LENGTH_SHORT).show();
+                        try {
+                            jsonarray = new JSONArray(response);
+                            if (jsonarray.length() == 0) {
+
+                                Toast.makeText(ScannerEvent.this, "nhi hoga", Toast.LENGTH_SHORT).show();
+                                KAlertDialog pDialog = new KAlertDialog(ScannerEvent.this, KAlertDialog.ERROR_TYPE);
+                                pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+                                pDialog.setTitleText("Registration Is Incomplete!");
+                                pDialog.setCancelable(false);
+                                pDialog.show();
+                                onResume();
+                            }
+                            else {
+                                manager = getSupportFragmentManager();
+                                FragmentTransaction transaction = manager.beginTransaction();
+                                Bundle bundle = new Bundle();
+                                bundle.putString("role", role);
+                                bundle.putString("event", event);
+                                bundle.putString("teamId", teamId);
+                                bundle.putString("participantId", participantId);
+                                bundle.putString("submittedBy", submittedBy);
 
 
-//        zXingScannerView.resumeCameraPreview(this);
-//        mScannerView.resumeCameraPreview(this);
+                                if(mCallback!=null) {
+                                    mCallback.communicate(participantId);
+                                }
+                                else {
+                                    addBottomDialogFragment = PeopleListEvent.newInstance();
+                                    addBottomDialogFragment.setArguments(bundle);
+                                    addBottomDialogFragment.setCancelable(false);
+                                    transaction.addToBackStack(null);
+                                    transaction.commit();
+                                    addBottomDialogFragment.show(getSupportFragmentManager(),
+                                            "event");
+                                }
+                            }
+
+                        }
+                        catch (JSONException e)
+                        {
+
+                        }
+                    }
+                    @Override
+                    public void onError(ANError anError) {
+                        Log.v("data",anError.getErrorBody());
+                    }
+                });
 
     }
 
