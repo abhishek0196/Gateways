@@ -5,6 +5,7 @@ xmlns:tools="http://schemas.android.com/tools"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
 android:background="#0C0B0B"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
     >
 
 <androidx.constraintlayout.widget.Guideline
@@ -112,10 +113,13 @@ android:background="#0C0B0B"
     app:layout_constraintTop_toBottomOf="@id/etPasswordLayout" />
 
 
+
+
     <Button
         android:id="@+id/signup"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="72dp"
         android:background="#EE9B9B"
         android:padding="16dp"
         android:text="Signup"
@@ -123,7 +127,7 @@ android:background="#0C0B0B"
         android:textColor="#ECE7E7"
         android:textSize="20dp"
         app:layout_constraintEnd_toStartOf="@+id/guideline_right"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/login"
         app:layout_constraintTop_toBottomOf="@id/login" />
 
