@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
@@ -234,7 +235,7 @@ public class PeopleListRegistration extends RoundedBottomSheetDialogFragment {
             title.setGravity(Gravity.CENTER);
             f.addView(title);
 
-            Button close = v.findViewById(R.id.close);
+            ImageButton close = v.findViewById(R.id.close);
             close.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

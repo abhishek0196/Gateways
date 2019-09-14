@@ -11,10 +11,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="0">
-        <Button
-            android:layout_width="100px"
-            android:layout_height="150px"
-            android:text="X"
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_close_black_24dp"
             android:id="@+id/close"
             android:layout_alignParentRight="true" />
 
