@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">Gateways</string>
+
+    <string-array name="Roles">
+        <item>Registrar</item>
+        <item>Foodie</item>
+        <item>Coordinator</item>
+        <item>Admin</item>
+    </string-array>
+
+    <string-array name="Events">
+        <item>IT Manager </item>
+        <item>Triathlon</item>
+        <item>IT Quiz</item>
+        <item>App Development </item>
+        <item>Coding and Debugging</item>
+        <item>Treasure Hunt</item>
+        <item>Cinematography</item>
+        <item>Product Launch</item>
+        <item>Gaming</item>
+        <item>Surprise Event </item>
+    </string-array>
+
+
+</resources>
+

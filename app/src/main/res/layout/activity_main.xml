@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:background="#0C0B0B"
+    >
+
+<androidx.constraintlayout.widget.Guideline
+    android:id="@+id/guideline_left"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    app:layout_constraintGuide_percent="0.06326034" />
+
+<androidx.constraintlayout.widget.Guideline
+    android:id="@+id/guideline_right"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    app:layout_constraintGuide_end="24dp" />
+
+<ImageView
+    android:id="@+id/icon"
+    android:layout_width="359dp"
+    android:layout_height="198dp"
+    android:layout_marginStart="8dp"
+    android:layout_marginLeft="8dp"
+    android:layout_marginTop="56dp"
+    android:layout_marginEnd="8dp"
+    android:layout_marginRight="8dp"
+    android:contentDescription="logo"
+    android:src="@mipmap/logo"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent" />
+
+
+<com.google.android.material.textfield.TextInputLayout
+    android:id="@+id/etuserLayout"
+    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+    android:layout_width="0dp"
+    android:layout_height="70dp"
+
+
+    android:hint="   Username"
+    android:textColorHint="@color/colorAccent"
+    app:boxStrokeColor="@color/colorAccent"
+    app:layout_constraintEnd_toStartOf="@+id/guideline_right"
+    app:layout_constraintHorizontal_bias="0.0"
+    app:layout_constraintStart_toStartOf="@+id/guideline_left"
+    app:layout_constraintTop_toBottomOf="@+id/icon"
+    tools:ignore="MissingConstraints">
+
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/email"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        android:inputType="text"
+        android:padding="16dp"
+        android:textColor="#ffff" />
+</com.google.android.material.textfield.TextInputLayout>
+
+<com.google.android.material.textfield.TextInputLayout
+    android:id="@+id/etPasswordLayout"
+    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+    android:layout_width="0dp"
+    android:layout_height="70dp"
+    android:layout_marginTop="36dp"
+
+    android:hint="   Password"
+    android:textColorHint="@color/colorAccent"
+    app:boxStrokeColor="@color/colorAccent"
+    app:layout_constraintEnd_toStartOf="@+id/guideline_right"
+    app:layout_constraintHorizontal_bias="1.0"
+    app:layout_constraintStart_toStartOf="@+id/guideline_left"
+    app:layout_constraintTop_toBottomOf="@+id/etuserLayout"
+    app:passwordToggleEnabled="true"
+    app:passwordToggleTint="#fff"
+    tools:ignore="MissingConstraints">
+
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/password"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        android:inputType="textPassword"
+        android:padding="16dp"
+        android:textColor="#ffff" />
+</com.google.android.material.textfield.TextInputLayout>
+
+
+<Button
+    android:id="@+id/login"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="55dp"
+    android:background="#EE9B9B"
+    android:padding="16dp"
+    android:text="Login"
+    android:textAllCaps="false"
+    android:textColor="#ffff"
+    android:textSize="20dp"
+
+    app:layout_constraintEnd_toStartOf="@+id/guideline_right"
+    app:layout_constraintHorizontal_bias="0.0"
+    app:layout_constraintStart_toStartOf="@+id/guideline_left"
+    app:layout_constraintTop_toBottomOf="@id/etPasswordLayout" />
+
+
+    <Button
+        android:id="@+id/signup"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="#EE9B9B"
+        android:padding="16dp"
+        android:text="Signup"
+        android:textAllCaps="false"
+        android:textColor="#ECE7E7"
+        android:textSize="20dp"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_right"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/login"
+        app:layout_constraintTop_toBottomOf="@id/login" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
