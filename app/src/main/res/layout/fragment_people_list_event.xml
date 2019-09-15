@@ -27,6 +27,7 @@
             android:text="Go next page"
             android:id="@+id/submit"
             android:layout_alignParentRight="true" />
+
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

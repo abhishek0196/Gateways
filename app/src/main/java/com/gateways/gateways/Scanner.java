@@ -81,12 +81,11 @@ public class Scanner extends AppCompatActivity implements ZXingScannerView.Resul
             submittedBy = bd.getString("email");
 
         }
-//        ActionBar actionBar = getSupportActionBar();
-//
-//        actionBar.setDisplayHomeAsUpEnabled(false);
-//        actionBar.setDisplayShowCustomEnabled(true);
-//        actionBar.setDisplayShowTitleEnabled(true);
-//        actionBar.hide();
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(false);
+        actionBar.setDisplayShowCustomEnabled(true);
+        actionBar.setDisplayShowTitleEnabled(true);
+        actionBar.hide();
         myVib = (Vibrator) this.getSystemService(VIBRATOR_SERVICE);
         mScannerView = findViewById(R.id.zxscan);
         permission();
