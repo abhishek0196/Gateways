@@ -6,6 +6,8 @@
 
     android:orientation="vertical"
     android:gravity="bottom|end"
+    android:padding="10dp"
+
     >
     <RelativeLayout
         android:layout_width="match_parent"
@@ -16,7 +18,9 @@
             android:layout_height="wrap_content"
             android:src="@drawable/ic_close_black_24dp"
             android:id="@+id/close"
-            android:layout_alignParentRight="true" />
+            android:background="@drawable/roundcorner"
+            android:layout_alignParentRight="true"
+            android:theme="@style/MaterialButton.Red"/>
 
     </RelativeLayout>
     <LinearLayout
@@ -32,13 +36,17 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0">
+        android:layout_weight="0"
+        android:gravity="center">
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Submit"
             android:id="@+id/submit"
-            android:layout_alignParentRight="true" />
+            android:layout_alignParentRight="true"
+            android:theme="@style/MaterialButton.Green"/>
+
+
 
     </RelativeLayout>
 
