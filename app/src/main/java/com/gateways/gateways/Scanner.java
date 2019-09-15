@@ -226,6 +226,13 @@ public class Scanner extends AppCompatActivity implements ZXingScannerView.Resul
 
     }
 
+
+    @Override
+    public void onBackPressed() {
+        //super.onBackPressed();
+        return;
+    }
+
     @Override
     protected void onPause() {
         super.onPause();
