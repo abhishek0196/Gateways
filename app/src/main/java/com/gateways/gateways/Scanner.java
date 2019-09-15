@@ -71,7 +71,7 @@ public class Scanner extends AppCompatActivity implements ZXingScannerView.Resul
 
         teamName = new ArrayList<String>();//Creating arraylist
         teamId  = new ArrayList<String>();//Creating arraylist
-        //getTeamNames();
+        getTeamNames();
         Intent intent = getIntent();
         Bundle bd = intent.getExtras();
         if(bd != null)
@@ -79,13 +79,14 @@ public class Scanner extends AppCompatActivity implements ZXingScannerView.Resul
             role = (String) bd.get("role");
             event = (String) bd.get("event");
             submittedBy = bd.getString("email");
+            Toast.makeText(this, "............"+submittedBy, Toast.LENGTH_SHORT).show();
 
         }
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(false);
-        actionBar.setDisplayShowCustomEnabled(true);
-        actionBar.setDisplayShowTitleEnabled(true);
-        actionBar.hide();
+//        ActionBar actionBar = getSupportActionBar();
+//        actionBar.setDisplayHomeAsUpEnabled(false);
+//        actionBar.setDisplayShowCustomEnabled(true);
+//        actionBar.setDisplayShowTitleEnabled(true);
+//        actionBar.hide();
         myVib = (Vibrator) this.getSystemService(VIBRATOR_SERVICE);
         mScannerView = findViewById(R.id.zxscan);
         permission();
@@ -112,7 +113,9 @@ public class Scanner extends AppCompatActivity implements ZXingScannerView.Resul
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        AndroidNetworking.post("http://Gateways-env.d9kekdzq4q.ap-south-1.elasticbeanstalk.com/get")
+        String url = getResources().getString(R.string.server_url);
+
+        AndroidNetworking.post(url+"/get")
                 .addJSONObjectBody(jsonObject) // posting json
                 .setTag("test")
                 .setPriority(Priority.MEDIUM)
@@ -250,7 +253,7 @@ public class Scanner extends AppCompatActivity implements ZXingScannerView.Resul
 
     private void getAlreadyExistingParticipants(final String teamId) {
 
-        String query = "select * from gateways.temporaryData where id =\""+teamId+"\";";
+        String query = "select submittedby from gateways.temporaryData where id =\""+teamId+"\";";
 
         JSONObject jsonObject = new JSONObject();
         try {
@@ -271,8 +274,10 @@ public class Scanner extends AppCompatActivity implements ZXingScannerView.Resul
         pDialog1.setTitleText("Loading");
         pDialog1.setCancelable(false);
         pDialog1.show();
+        String url = getResources().getString(R.string.server_url);
 
-        AndroidNetworking.post("http://Gateways-env.d9kekdzq4q.ap-south-1.elasticbeanstalk.com/get")
+        AndroidNetworking.post(url+"/get")
+//        AndroidNetworking.post("http://Gateways-env.d9kekdzq4q.ap-south-1.elasticbeanstalk.com/get")
                 .addJSONObjectBody(jsonObject) // posting json
                 .setTag("test")
                 .setPriority(Priority.MEDIUM)
@@ -287,14 +292,27 @@ public class Scanner extends AppCompatActivity implements ZXingScannerView.Resul
                             jsonarray = new JSONArray(response);
                             if(jsonarray.length() > 0)
                             {
+                                JSONObject jsonobject = jsonarray.getJSONObject(0);
+                                String name = jsonobject.getString("submittedby");
+                                Toast.makeText(Scanner.this, "yeh hai wo haramkhor--->"+name, Toast.LENGTH_SHORT).show();
 
-                                Toast.makeText(Scanner.this, "nhi hoga", Toast.LENGTH_SHORT).show();
+
+
                                 KAlertDialog pDialog = new KAlertDialog(Scanner.this, KAlertDialog.ERROR_TYPE);
                                 pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
-                                pDialog.setTitleText("Someone Else is Already With this team");
+                                pDialog.setContentText("Someone Else is Already With this team");
+                                pDialog.setConfirmClickListener(new KAlertDialog.KAlertClickListener()
+                                {
+                                    @Override
+                                    public void onClick(KAlertDialog sDialog)
+                                    {
+                                        sDialog.dismissWithAnimation();
+                                        onResume();
+                                    }
+                                });
                                 pDialog.setCancelable(false);
                                 pDialog.show();
-                                onResume();
+
                             }
                             else
                             {

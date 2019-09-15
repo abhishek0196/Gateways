@@ -26,23 +26,30 @@ public class Login extends AppCompatActivity {
     Button login;
     FirebaseAuth mAuth;
 
-
+    FirebaseUser user;
+     KAlertDialog pDialog1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
         email = findViewById(R.id.email);
 
         password = findViewById(R.id.password);
         login = findViewById(R.id.login);
         mAuth = FirebaseAuth.getInstance();
-
-
+       user = mAuth.getCurrentUser();
+        pDialog1 = new KAlertDialog(Login.this, KAlertDialog.PROGRESS_TYPE);
+//        if(user != null)
+//        {
+//
+//            successfulLogin();
+//        }
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final KAlertDialog pDialog1 = new KAlertDialog(Login.this, KAlertDialog.PROGRESS_TYPE);
+
                 try {
 
 
@@ -63,37 +70,7 @@ public class Login extends AppCompatActivity {
                                         // Sign in success, update UI with the signed-in user's information
                                         Toast.makeText(Login.this, "Successful", Toast.LENGTH_SHORT).show();
                                         //Log.d("", "signInWithEmail:success");
-                                        FirebaseUser user = mAuth.getCurrentUser();
-
-                                        user.getIdToken(true)
-                                                .addOnSuccessListener(new OnSuccessListener<GetTokenResult>() {
-                                                    @Override
-                                                    public void onSuccess(GetTokenResult result) {
-
-//                                            Map<String,Object> res =
-                                                        String role = result.getClaims().get("roles").toString();
-                                                        String event = result.getClaims().get("event").toString();
-//                                            Toast.makeText(Login.this, value+"event:"+value1.toString(), Toast.LENGTH_SHORT).show();
-                                                        //+"event:"+value1.toString()
-                                                        //Log.v("avvvv",result.);
-                                                        Intent scanner  = new Intent();
-                                                        Toast.makeText(Login.this, ""+role, Toast.LENGTH_SHORT).show();
-                                                        if(role.equals("Registrar")) {
-                                                            scanner = new Intent(Login.this, Scanner.class);
-                                                        }
-                                                        else if(role.equals("Coordinator"))
-                                                        {
-                                                            scanner = new Intent(Login.this, ScannerEvent.class);
-                                                        }
-                                                        pDialog1.hide();
-                                                        scanner.putExtra("role", role);
-                                                        scanner.putExtra("event", event);
-                                                        scanner.putExtra("email", mAuth.getCurrentUser().getEmail());
-                                                        startActivity(scanner);
-
-
-                                                    }
-                                                });
+                                        successfulLogin();
                                     } else {
                                         pDialog1.hide();
                                         final KAlertDialog pDialog2 = new KAlertDialog(Login.this, KAlertDialog.ERROR_TYPE);
@@ -132,5 +109,38 @@ public class Login extends AppCompatActivity {
                 startActivity(signup);
             }
         });
+    }
+    private  void successfulLogin()
+    {
+        user.getIdToken(true)
+                .addOnSuccessListener(new OnSuccessListener<GetTokenResult>() {
+                    @Override
+                    public void onSuccess(GetTokenResult result) {
+
+//                                            Map<String,Object> res =
+                        String role = result.getClaims().get("roles").toString();
+                        String event = result.getClaims().get("event").toString();
+//                                            Toast.makeText(Login.this, value+"event:"+value1.toString(), Toast.LENGTH_SHORT).show();
+                        //+"event:"+value1.toString()
+                        //Log.v("avvvv",result.);
+                        Intent scanner  = new Intent();
+                        Toast.makeText(Login.this, ""+role, Toast.LENGTH_SHORT).show();
+                        if(role.equals("Registrar")) {
+                            scanner = new Intent(Login.this, Scanner.class);
+                        }
+                        else if(role.equals("Coordinator"))
+                        {
+                            scanner = new Intent(Login.this, ScannerEvent.class);
+                        }
+                        pDialog1.hide();
+                        scanner.putExtra("role", role);
+                        scanner.putExtra("event", event);
+                        scanner.putExtra("email", mAuth.getCurrentUser().getEmail());
+                        startActivity(scanner);
+
+
+                    }
+                });
+
     }
 }

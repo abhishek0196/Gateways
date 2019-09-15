@@ -68,17 +68,10 @@ public class ScannerEvent extends AppCompatActivity implements ZXingScannerView.
     ArrayList<String> list;
     ArrayAdapter<String > adapter;
     String teamId,participantId;
-    private static final String[] COUNTRIES = new String[] { "Belgium",
-            "France", "France_", "Italy", "Germany", "Spain" };
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scanner_event);
-        ActionBar actionBar = getSupportActionBar();
-        Toast.makeText(this, ""+actionBar, Toast.LENGTH_SHORT).show();
-        actionBar.setDisplayHomeAsUpEnabled(false);
-        actionBar.setDisplayShowCustomEnabled(true);
 
 
 
@@ -86,20 +79,6 @@ public class ScannerEvent extends AppCompatActivity implements ZXingScannerView.
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View v = inflator.inflate(R.layout.actionbar, null);
 
-        actionBar.setCustomView(v);
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_dropdown_item_1line, COUNTRIES);
-        AutoCompleteTextView textView = (AutoCompleteTextView) v
-                .findViewById(R.id.editText1);
-        textView.setThreshold(2);
-        textView.setAdapter(adapter);
-        textView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-            }
-        });
         Intent intent = getIntent();
         Bundle bd = intent.getExtras();
         if(bd != null)
@@ -112,29 +91,13 @@ public class ScannerEvent extends AppCompatActivity implements ZXingScannerView.
 
         myVib = (Vibrator) this.getSystemService(VIBRATOR_SERVICE);
         mScannerView = findViewById(R.id.zxscan);
-//        mScannerView = new ZXingScannerView(this) {
-//
-//            @Override
-//            protected IViewFinder createViewFinderView(Context context) {
-//                return new CustomZXingScannerView(context);
-//            }
-//
-//        };
         permission();
         AndroidNetworking.initialize(getApplicationContext());
-//        zXingScannerView =new ZXingScannerView(getApplicationContext());
-//        setContentView(zXingScannerView);
-
-
-        //mScannerView.addView(m);
-
 
         mScannerView.setResultHandler(this);
 
 
         mScannerView.startCamera();
-//        zXingScannerView.setResultHandler(this);
-//        zXingScannerView.startCamera();
 
     }
 
@@ -238,8 +201,10 @@ public class ScannerEvent extends AppCompatActivity implements ZXingScannerView.
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        String url = getResources().getString(R.string.server_url);
 
-        AndroidNetworking.post("http://Gateways-env.d9kekdzq4q.ap-south-1.elasticbeanstalk.com/get")
+        AndroidNetworking.post(url+"/get")
+//        AndroidNetworking.post("http://Gateways-env.d9kekdzq4q.ap-south-1.elasticbeanstalk.com/get")
                 .addJSONObjectBody(jsonObject) // posting json
                 .setTag("test")
                 .setPriority(Priority.MEDIUM)

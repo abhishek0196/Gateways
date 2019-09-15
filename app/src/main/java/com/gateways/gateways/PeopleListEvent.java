@@ -183,7 +183,10 @@ public class PeopleListEvent extends RoundedBottomSheetDialogFragment implements
         }
 
         final String finalPnamee = pnamee;
-        AndroidNetworking.post("http://Gateways-env.d9kekdzq4q.ap-south-1.elasticbeanstalk.com/put")
+        String url = getResources().getString(R.string.server_url);
+
+        AndroidNetworking.post(url+"/put")
+//        AndroidNetworking.post("http://Gateways-env.d9kekdzq4q.ap-south-1.elasticbeanstalk.com/put")
                 .addJSONObjectBody(jsonObject) // posting json
                 .setTag("test")
                 .setPriority(Priority.MEDIUM)
@@ -300,7 +303,10 @@ public class PeopleListEvent extends RoundedBottomSheetDialogFragment implements
 
         Toast.makeText(getContext(), ""+pname, Toast.LENGTH_SHORT).show();
         String url = "https://script.google.com/macros/s/AKfycbxB0-qTu2WSPIly8ODWlg95Igu5EoY1nzzMlZA-FoZBGxCYW6Q/exec?collegeName="+cname+"&participantName="+pname+"&teamName="+tname+"&sheetName=123&email="+submittedBy;
-        AndroidNetworking.post("http://Gateways-env.d9kekdzq4q.ap-south-1.elasticbeanstalk.com/sheet/Gaming")
+        String urll = getResources().getString(R.string.server_url);
+
+        AndroidNetworking.post(urll+"/Gaming")
+//        AndroidNetworking.post("http://Gateways-env.d9kekdzq4q.ap-south-1.elasticbeanstalk.com/sheet/Gaming")
 
                 .setTag("test")
 

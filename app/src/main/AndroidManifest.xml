@@ -21,12 +21,12 @@
 
         <activity android:name=".Scanner">
 
+
         </activity>
 
 
         <activity android:name=".SIgnUp" />
         <activity android:name=".Login">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

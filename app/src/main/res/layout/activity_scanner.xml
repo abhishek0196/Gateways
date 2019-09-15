@@ -10,13 +10,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+
     xmlns:app="http://schemas.android.com/apk/res-auto"
     >
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:background="#000000"
+        android:background="#23374d"
         android:orientation="vertical"
         android:paddingBottom="20dp"
         >
@@ -46,6 +47,7 @@
             android:paddingRight="20dp"
 
             android:hint="   Enter Team Names"
+
             android:textColorHint="@color/colorAccent"
             app:boxStrokeColor="@color/colorAccent"
             tools:ignore="MissingConstraints">

@@ -1,9 +1,12 @@
 package com.gateways.gateways;
 
 import android.content.res.ColorStateList;
+import android.content.res.Resources;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 
+import androidx.core.content.res.ResourcesCompat;
 import androidx.core.widget.CompoundButtonCompat;
 import androidx.fragment.app.Fragment;
 
@@ -84,8 +87,10 @@ public class PeopleListRegistration extends RoundedBottomSheetDialogFragment {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        String url = getResources().getString(R.string.server_url);
 
-        AndroidNetworking.post("http://Gateways-env.d9kekdzq4q.ap-south-1.elasticbeanstalk.com/get")
+        AndroidNetworking.post(url+"/get")
+//        AndroidNetworking.post("http://Gateways-env.d9kekdzq4q.ap-south-1.elasticbeanstalk.com/get")
                 .addJSONObjectBody(jsonObject) // posting json
                 .setTag("test")
                 .setPriority(Priority.MEDIUM)
@@ -103,7 +108,7 @@ public class PeopleListRegistration extends RoundedBottomSheetDialogFragment {
                             }
                             else
                             {
-                                writeApiRequestTemporary(teamId);
+                                writeApiRequestTemporary(teamId,submittedBy);
                                 generateView(response);
                             }
                         } catch (JSONException e) {
@@ -144,7 +149,10 @@ public class PeopleListRegistration extends RoundedBottomSheetDialogFragment {
         }
 
         final String finalPnamee = pnamee;
-        AndroidNetworking.post("http://Gateways-env.d9kekdzq4q.ap-south-1.elasticbeanstalk.com/put")
+        String url = getResources().getString(R.string.server_url);
+
+        AndroidNetworking.post(url+"/put")
+//        AndroidNetworking.post("http://Gateways-env.d9kekdzq4q.ap-south-1.elasticbeanstalk.com/put")
                 .addJSONObjectBody(jsonObject) // posting json
                 .setTag("test")
                 .setPriority(Priority.MEDIUM)
@@ -170,6 +178,7 @@ public class PeopleListRegistration extends RoundedBottomSheetDialogFragment {
         LinearLayout f = v.findViewById(R.id.frame);
         JSONArray jsonarray = null;
         String teamName = "",collegeName = "";
+        LinearLayout uperFrame = v.findViewById(R.id.upperFrame);
 
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
@@ -196,7 +205,12 @@ public class PeopleListRegistration extends RoundedBottomSheetDialogFragment {
                 String name = jsonobject.getString("participant_name");
 //                Toast.makeText(getContext(), "" + id, Toast.LENGTH_SHORT).show();
                 scb = new CheckBox(getContext());
+                scb.setTextColor(Color.parseColor("#23374d"));
 
+                  Typeface typeface1 = ResourcesCompat.getFont(getContext(),R.font.nunitolight);
+//            Typeface custom_font = Typeface.createFromAsset(getActivity().getAssets(), "font/playfairdisplayblack.ttf");
+//            Typeface custom_font = Typeface.createFromFile(getActivity().getResources().getFont())
+                  scb.setTypeface(typeface1);
                 if (attendance == 1) {
                     scb.setChecked(true);
                     scb.setEnabled(false);
@@ -230,11 +244,17 @@ public class PeopleListRegistration extends RoundedBottomSheetDialogFragment {
                 collegeName = jsonobject.getString("college_name");
 
             }
-            TextView title = new TextView(getContext());
+            TextView title = v.findViewById(R.id.titlee);
             title.setText(teamName);
+            Typeface typeface = ResourcesCompat.getFont(getContext(),R.font.palyfair);
+//            Typeface custom_font = Typeface.createFromAsset(getActivity().getAssets(), "font/playfairdisplayblack.ttf");
+//            Typeface custom_font = Typeface.createFromFile(getActivity().getResources().getFont())
+            title.setTypeface(typeface);
+            title.setTextColor(Color.parseColor("#23374d"));
+
             title.setTextSize(30);
             title.setGravity(Gravity.CENTER);
-            f.addView(title);
+            //f.addView(title);
 
             ImageButton close = v.findViewById(R.id.close);
             close.setOnClickListener(new View.OnClickListener() {
@@ -278,8 +298,10 @@ public class PeopleListRegistration extends RoundedBottomSheetDialogFragment {
             e.printStackTrace();
         }
 
+        String url = getResources().getString(R.string.server_url);
 
-        AndroidNetworking.post("http://Gateways-env.d9kekdzq4q.ap-south-1.elasticbeanstalk.com/put")
+        AndroidNetworking.post(url+"/put")
+//        AndroidNetworking.post("http://Gateways-env.d9kekdzq4q.ap-south-1.elasticbeanstalk.com/put")
                 .addJSONObjectBody(jsonObject) // posting json
                 .setTag("test")
                 .setPriority(Priority.MEDIUM)
@@ -303,9 +325,9 @@ public class PeopleListRegistration extends RoundedBottomSheetDialogFragment {
     }
 
 
-    private void writeApiRequestTemporary(String id) {
+    private void writeApiRequestTemporary(String id,String submittedBy) {
         Toast.makeText(getContext(), "teamm"+id, Toast.LENGTH_SHORT).show();
-        String query = "insert into gateways.temporaryData values(\""+id+"\");";
+        String query = "insert into gateways.temporaryData values(\""+id+"\",\""+submittedBy+"\");";
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("type", "insert");
@@ -313,9 +335,11 @@ public class PeopleListRegistration extends RoundedBottomSheetDialogFragment {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        String url = getResources().getString(R.string.server_url);
 
+        AndroidNetworking.post(url+"/put")
 
-        AndroidNetworking.post("http://Gateways-env.d9kekdzq4q.ap-south-1.elasticbeanstalk.com/put")
+//        AndroidNetworking.post("http://Gateways-env.d9kekdzq4q.ap-south-1.elasticbeanstalk.com/put")
                 .addJSONObjectBody(jsonObject) // posting json
                 .setTag("test")
                 .setPriority(Priority.MEDIUM)
@@ -339,6 +363,7 @@ public class PeopleListRegistration extends RoundedBottomSheetDialogFragment {
     private void updateSheet(String pname, String cname, String tname) {
         Toast.makeText(getContext(), ""+pname, Toast.LENGTH_SHORT).show();
         String url = "https://script.google.com/macros/s/AKfycbxB0-qTu2WSPIly8ODWlg95Igu5EoY1nzzMlZA-FoZBGxCYW6Q/exec?collegeName="+cname+"&participantName="+pname+"&teamName="+tname+"&sheetName=Registration&email="+submittedBy;
+
         AndroidNetworking.post("https://us-central1-gateways-c3a50.cloudfunctions.net/helloWorld")
                 .setTag("test")
                 .addQueryParameter("url", url)
