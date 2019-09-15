@@ -185,17 +185,19 @@ public class PeopleListRegistration extends RoundedBottomSheetDialogFragment {
         int height = displayMetrics.heightPixels;
 
 
-        double newheight = height * 0.45;
-        ScrollView sc = new ScrollView(getContext());
-        sc.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (int) newheight));
-
-
-        LinearLayout m = new LinearLayout(getContext());
-        m.setOrientation(LinearLayout.VERTICAL);
-        m.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-        m.setGravity(Gravity.BOTTOM);
+        double newheight = 0.0;
+        newheight = height * 0.45;
         try {
             jsonarray = new JSONArray(response);
+            newheight = height * jsonarray.length() * 0.08 > newheight ? newheight : height * jsonarray.length() * 0.08;
+            ScrollView sc = new ScrollView(getContext());
+            sc.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (int) newheight));
+
+
+            LinearLayout m = new LinearLayout(getContext());
+            m.setOrientation(LinearLayout.VERTICAL);
+            m.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+            m.setGravity(Gravity.BOTTOM);
               for (int i = 0; i < jsonarray.length(); i++) {
                 JSONObject jsonobject = jsonarray.getJSONObject(i);
                 String id = jsonobject.getString("id");
@@ -208,8 +210,7 @@ public class PeopleListRegistration extends RoundedBottomSheetDialogFragment {
                 scb.setTextColor(Color.parseColor("#23374d"));
 
                   Typeface typeface1 = ResourcesCompat.getFont(getContext(),R.font.nunitolight);
-//            Typeface custom_font = Typeface.createFromAsset(getActivity().getAssets(), "font/playfairdisplayblack.ttf");
-//            Typeface custom_font = Typeface.createFromFile(getActivity().getResources().getFont())
+
                   scb.setTypeface(typeface1);
                 if (attendance == 1) {
                     scb.setChecked(true);

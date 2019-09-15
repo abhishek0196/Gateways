@@ -5,4 +5,5 @@
     <color name="colorAccent">#F0DECB</color>
     <color name="colorName">#ffffff</color>
     <color name="mtrl_textinput_default_box_stroke_color" tools:override="true">#fff</color>
+    <color name="mtrl_textinput_default_box_stroke_color1" tools:override="true">#E2487D</color>
 </resources>

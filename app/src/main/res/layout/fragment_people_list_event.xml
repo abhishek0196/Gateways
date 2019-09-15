@@ -1,39 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+
+android:orientation="vertical"
+android:gravity="bottom|end"
+android:padding="10dp"
+android:background="@drawable/bottomround"
+android:id="@+id/upperFrame">
+
+
+<RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_weight="0">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/titlee"
+        android:layout_centerHorizontal="true"
+
+        />
+
+    <ImageButton
+        android:layout_marginTop="4dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_close_black_24dp"
+        android:id="@+id/close"
+        android:background="@drawable/roundcorner"
+        android:layout_alignParentRight="true"
+        android:theme="@style/MaterialButton"
+        />
+</RelativeLayout>
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/frame"
     android:orientation="vertical"
     android:gravity="bottom|end"
     >
-    <LinearLayout
-        android:layout_width="match_parent"
+
+
+</LinearLayout>
+<LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+    <Button
+        android:id="@+id/submit"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/frame"
-        android:orientation="vertical"
-        android:gravity="bottom|end">
 
-
-    </LinearLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
+        android:text="Submit"
+        android:theme="@style/MaterialButton.Pink" />
+    <Button
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="0">
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Go next page"
-            android:id="@+id/submit"
-            android:layout_alignParentRight="true" />
+        android:text="Add More People"
+        android:id="@+id/add"
+        />
+</LinearLayout>
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Add More People"
-            android:id="@+id/add"
-            />
-    </RelativeLayout>
 
 </LinearLayout>

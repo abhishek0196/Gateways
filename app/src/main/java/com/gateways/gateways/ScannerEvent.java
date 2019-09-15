@@ -255,7 +255,7 @@ public class ScannerEvent extends AppCompatActivity implements ZXingScannerView.
                         }
                         catch (JSONException e)
                         {
-
+Log.v("ff",e.toString());
                         }
                     }
                     @Override
@@ -264,6 +264,12 @@ public class ScannerEvent extends AppCompatActivity implements ZXingScannerView.
                     }
                 });
 
+    }
+
+    @Override
+    public void onBackPressed() {
+//        super.onBackPressed();
+        return;
     }
 
     public void permission()

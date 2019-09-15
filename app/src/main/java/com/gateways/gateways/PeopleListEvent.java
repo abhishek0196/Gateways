@@ -3,8 +3,10 @@ package com.gateways.gateways;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 
+import androidx.core.content.res.ResourcesCompat;
 import androidx.core.widget.CompoundButtonCompat;
 import androidx.fragment.app.Fragment;
 
@@ -18,6 +20,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
@@ -29,6 +32,8 @@ import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.StringRequestListener;
 import com.deishelon.roundedbottomsheet.RoundedBottomSheetDialogFragment;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -57,7 +62,7 @@ public class PeopleListEvent extends RoundedBottomSheetDialogFragment implements
     String finalCollegeName;
 //    ArrayList<String> result =
     EditText title;
-
+    TextInputLayout team;
     LinearLayout f;
 
     @Override
@@ -149,8 +154,10 @@ public class PeopleListEvent extends RoundedBottomSheetDialogFragment implements
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        String url = getResources().getString(R.string.server_url);
 
-        AndroidNetworking.post("http://Gateways-env.d9kekdzq4q.ap-south-1.elasticbeanstalk.com/get")
+        AndroidNetworking.post(url+"/get")
+//        AndroidNetworking.post("http://Gateways-env.d9kekdzq4q.ap-south-1.elasticbeanstalk.com/get")
                 .addJSONObjectBody(jsonObject) // posting json
                 .setTag("test")
                 .setPriority(Priority.MEDIUM)
@@ -158,11 +165,12 @@ public class PeopleListEvent extends RoundedBottomSheetDialogFragment implements
                 .getAsString(new StringRequestListener() {
                     @Override
                     public void onResponse(String response) {
+                        Log.v("dataf",response);
                         generateView(response);
                     }
                     @Override
                     public void onError(ANError anError) {
-                        Log.v("data",anError.getErrorBody());
+                        Log.v("dataf",anError.getErrorBody());
                     }
                 });
     }
@@ -223,7 +231,17 @@ public class PeopleListEvent extends RoundedBottomSheetDialogFragment implements
          f = v.findViewById(R.id.frame);
 
         JSONArray jsonarray = null;
+        ImageButton close = v.findViewById(R.id.close);
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mCallback = (FragmentToActivity)getContext();
 
+                mCallback.communicate("End");
+                getFragmentManager().beginTransaction().remove(me).commit();
+
+            }
+        });
 
         try {
             DisplayMetrics displayMetrics = new DisplayMetrics();
@@ -232,17 +250,53 @@ public class PeopleListEvent extends RoundedBottomSheetDialogFragment implements
             jsonarray = new JSONArray(response);
             ScrollView sc = new ScrollView(getContext());
             double newheight = 0.0;
-            if(jsonarray.length() == 1 )
+            if(jsonarray.length() == 1)
             {
-                newheight = height * 0.15;
+                newheight = height * 0.10;
             }
-            else if(jsonarray.length() > 1 )
+            else if(jsonarray.length() <= 2 )
             {
+                newheight = height * 0.20;
+                team= new TextInputLayout(getContext(), null, R.style.Widget_MaterialComponents_TextInputLayout_OutlinedBox);
+//                team= new TextInputLayout(getContext(), null, R.style.AddTeamName);
+
+                team.setHint("Team Name");
+
+//                team.setBoxStrokeColor(Color.parseColor("#E2487D"));
+                team.setDefaultHintTextColor( ColorStateList.valueOf(Color.parseColor("#E2487D")));
+//                team.setBoxBackgroundColor(Color.BLACK);
+                team.setBoxBackgroundMode(TextInputLayout.BOX_BACKGROUND_OUTLINE);
+                team.setBoxCornerRadii(5, 5, 5, 5);
+                TextInputEditText edtteamName = new TextInputEditText(team.getContext());
+                edtteamName.requestFocus();
+                team.addView(edtteamName);
                 title= new     EditText(getContext());
                 title.setHint("Enter Team Name");
                 title.setTextSize(30);
                 title.setGravity(Gravity.CENTER);
-                f.addView(title);
+                f.addView(team);
+
+            }
+            else if(jsonarray.length() > 2 )
+            {
+                team= new TextInputLayout(getContext(), null, R.style.Widget_MaterialComponents_TextInputLayout_OutlinedBox);
+//                team= new TextInputLayout(getContext(), null, R.style.AddTeamName);
+
+                team.setHint("Team Name");
+
+//                team.setBoxStrokeColor(Color.parseColor("#E2487D"));
+                team.setDefaultHintTextColor( ColorStateList.valueOf(Color.parseColor("#E2487D")));
+//                team.setBoxBackgroundColor(Color.BLACK);
+                team.setBoxBackgroundMode(TextInputLayout.BOX_BACKGROUND_OUTLINE);
+                team.setBoxCornerRadii(5, 5, 5, 5);
+                TextInputEditText edtteamName = new TextInputEditText(team.getContext());
+                edtteamName.requestFocus();
+                team.addView(edtteamName);
+                title= new     EditText(getContext());
+                title.setHint("Enter Team Name");
+                title.setTextSize(30);
+                title.setGravity(Gravity.CENTER);
+                f.addView(team);
                 newheight = height * 0.35;
             }
 
@@ -267,8 +321,12 @@ public class PeopleListEvent extends RoundedBottomSheetDialogFragment implements
                 }
 
                 scb.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 150));
-
+                scb.setTextColor(Color.parseColor("#23374d"));
                 scb.setText(name);
+                Typeface typeface1 = ResourcesCompat.getFont(getContext(),R.font.nunitolight);
+
+                scb.setTypeface(typeface1);
+
                 scb.setGravity(Gravity.CENTER | Gravity.LEFT);
                 scb.setTextSize(25);
                 int states[][] = {{android.R.attr.state_checked}, {}};
