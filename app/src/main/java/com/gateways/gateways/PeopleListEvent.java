@@ -86,18 +86,27 @@ public class PeopleListEvent extends RoundedBottomSheetDialogFragment implements
             submit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(getContext(), "Size"+pname.size()+"----"+pname.get(0), Toast.LENGTH_SHORT).show();
-                    if(pname.size()>1)
-                    {
-                        teamName = title.getText().toString();
-                        writeApiRequest(tags,pname, finalCollegeName, teamName,event,submittedBy);
-                    }
-                    else if(pname.size() == 1)
-                    {
-                        teamName = "solo";
-                        writeApiRequest(tags,pname, finalCollegeName, teamName,event,submittedBy);
-                    }
+                    try {
 
+//                        Toast.makeText(getContext(), "Size"+pname.size()+"----"+pname.get(0), Toast.LENGTH_SHORT).show();
+                        if(pname.size()>1)
+                        {
+                            teamName = title.getText().toString();
+                            writeApiRequest(tags,pname, finalCollegeName, teamName,event,submittedBy);
+                        }
+                        else if(pname.size() == 1)
+                        {
+                            teamName = "solo";
+                            writeApiRequest(tags,pname, finalCollegeName, teamName,event,submittedBy);
+                        }
+
+
+
+                    }
+                    catch (Exception e)
+                    {
+                        Log.v("data",e.toString());
+                    }
 
                 }
             });
@@ -305,7 +314,7 @@ public class PeopleListEvent extends RoundedBottomSheetDialogFragment implements
         String url = "https://script.google.com/macros/s/AKfycbxB0-qTu2WSPIly8ODWlg95Igu5EoY1nzzMlZA-FoZBGxCYW6Q/exec?collegeName="+cname+"&participantName="+pname+"&teamName="+tname+"&sheetName=123&email="+submittedBy;
         String urll = getResources().getString(R.string.server_url);
 
-        AndroidNetworking.post(urll+"/Gaming")
+        AndroidNetworking.post(urll+"/sheet/Gaming")
 //        AndroidNetworking.post("http://Gateways-env.d9kekdzq4q.ap-south-1.elasticbeanstalk.com/sheet/Gaming")
 
                 .setTag("test")

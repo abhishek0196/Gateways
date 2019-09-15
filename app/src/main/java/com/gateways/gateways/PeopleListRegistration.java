@@ -348,7 +348,7 @@ public class PeopleListRegistration extends RoundedBottomSheetDialogFragment {
                     @Override
                     public void onResponse(String response) {
                         Toast.makeText(getContext(), "hello"+response, Toast.LENGTH_SHORT).show();
-
+Log.v("dattta",response);
                         //generateView(response);
                     }
                     @Override

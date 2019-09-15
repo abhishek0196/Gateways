@@ -253,7 +253,7 @@ public class Scanner extends AppCompatActivity implements ZXingScannerView.Resul
 
     private void getAlreadyExistingParticipants(final String teamId) {
 
-        String query = "select submittedby from gateways.temporaryData where id =\""+teamId+"\";";
+        String query = "select teams.team_name,gateways.temporaryData.submittedby from teams inner join gateways.temporaryData on teams.unique_team_code = gateways.temporaryData.id where gateways.temporaryData.id =\""+teamId+"\" ;";
 
         JSONObject jsonObject = new JSONObject();
         try {
@@ -294,13 +294,14 @@ public class Scanner extends AppCompatActivity implements ZXingScannerView.Resul
                             {
                                 JSONObject jsonobject = jsonarray.getJSONObject(0);
                                 String name = jsonobject.getString("submittedby");
-                                Toast.makeText(Scanner.this, "yeh hai wo haramkhor--->"+name, Toast.LENGTH_SHORT).show();
-
+                                String tname = jsonobject.getString("team_name");
+                                name = name.substring(0,name.indexOf("."));
+                                name = name.substring(0,1).toUpperCase() + name.substring(1);
 
 
                                 KAlertDialog pDialog = new KAlertDialog(Scanner.this, KAlertDialog.ERROR_TYPE);
                                 pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
-                                pDialog.setContentText("Someone Else is Already With this team");
+                                pDialog.setContentText(name+" is already with team "+tname);
                                 pDialog.setConfirmClickListener(new KAlertDialog.KAlertClickListener()
                                 {
                                     @Override
