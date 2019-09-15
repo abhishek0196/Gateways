@@ -33,6 +33,7 @@ public class Login extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         email = findViewById(R.id.email);
+
         password = findViewById(R.id.password);
         login = findViewById(R.id.login);
         mAuth = FirebaseAuth.getInstance();
@@ -42,58 +43,86 @@ public class Login extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 final KAlertDialog pDialog1 = new KAlertDialog(Login.this, KAlertDialog.PROGRESS_TYPE);
-                pDialog1.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
-                pDialog1.setTitleText("Loading");
-                pDialog1.setCancelable(false);
-                pDialog1.show();
-                emailText = email.getText().toString();
-                passwordText = password.getText().toString();
-                mAuth.signInWithEmailAndPassword(emailText,passwordText)
-                        .addOnCompleteListener(Login.this, new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                if (task.isSuccessful()) {
-                                    // Sign in success, update UI with the signed-in user's information
-                                    Toast.makeText(Login.this, "Successful", Toast.LENGTH_SHORT).show();
-                                    //Log.d("", "signInWithEmail:success");
-                                    FirebaseUser user = mAuth.getCurrentUser();
+                try {
 
-                                    user.getIdToken(true)
-                                            .addOnSuccessListener(new OnSuccessListener<GetTokenResult>() {
-                                        @Override
-                                        public void onSuccess(GetTokenResult result) {
+
+                    emailText = email.getText().toString().trim();
+                    passwordText = password.getText().toString();
+
+                    pDialog1.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+                    pDialog1.setTitleText("Loading");
+                    pDialog1.setCancelable(false);
+                    pDialog1.show();
+
+
+                    mAuth.signInWithEmailAndPassword(emailText,passwordText)
+                            .addOnCompleteListener(Login.this, new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                    if (task.isSuccessful()) {
+                                        // Sign in success, update UI with the signed-in user's information
+                                        Toast.makeText(Login.this, "Successful", Toast.LENGTH_SHORT).show();
+                                        //Log.d("", "signInWithEmail:success");
+                                        FirebaseUser user = mAuth.getCurrentUser();
+
+                                        user.getIdToken(true)
+                                                .addOnSuccessListener(new OnSuccessListener<GetTokenResult>() {
+                                                    @Override
+                                                    public void onSuccess(GetTokenResult result) {
 
 //                                            Map<String,Object> res =
-                                            String role = result.getClaims().get("roles").toString();
-                                            String event = result.getClaims().get("event").toString();
+                                                        String role = result.getClaims().get("roles").toString();
+                                                        String event = result.getClaims().get("event").toString();
 //                                            Toast.makeText(Login.this, value+"event:"+value1.toString(), Toast.LENGTH_SHORT).show();
-                                        //+"event:"+value1.toString()
-                                            //Log.v("avvvv",result.);
-                                            Intent scanner  = new Intent();
-                                            Toast.makeText(Login.this, ""+role, Toast.LENGTH_SHORT).show();
-                                            if(role.equals("Registrar")) {
-                                                scanner = new Intent(Login.this, Scanner.class);
-                                            }
-                                            else if(role.equals("Coordinator"))
-                                            {
-                                                scanner = new Intent(Login.this, ScannerEvent.class);
-                                            }
-                                            pDialog1.hide();
-                                            scanner.putExtra("role", role);
-                                            scanner.putExtra("event", event);
-                                            scanner.putExtra("email", mAuth.getCurrentUser().getEmail());
-                                            startActivity(scanner);
+                                                        //+"event:"+value1.toString()
+                                                        //Log.v("avvvv",result.);
+                                                        Intent scanner  = new Intent();
+                                                        Toast.makeText(Login.this, ""+role, Toast.LENGTH_SHORT).show();
+                                                        if(role.equals("Registrar")) {
+                                                            scanner = new Intent(Login.this, Scanner.class);
+                                                        }
+                                                        else if(role.equals("Coordinator"))
+                                                        {
+                                                            scanner = new Intent(Login.this, ScannerEvent.class);
+                                                        }
+                                                        pDialog1.hide();
+                                                        scanner.putExtra("role", role);
+                                                        scanner.putExtra("event", event);
+                                                        scanner.putExtra("email", mAuth.getCurrentUser().getEmail());
+                                                        startActivity(scanner);
 
 
-                                        }
-                                    });
-                                } else {
+                                                    }
+                                                });
+                                    } else {
+                                        pDialog1.hide();
+                                        final KAlertDialog pDialog2 = new KAlertDialog(Login.this, KAlertDialog.ERROR_TYPE);
 
-                                    Toast.makeText(Login.this, "signInWithEmail:failure" +task.getException(), Toast.LENGTH_SHORT).show();
+                                        pDialog2.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+                                        pDialog2.setTitleText("Invalid Credentials");
+
+                                        pDialog2.setCancelable(false);
+                                        pDialog2.show();
+
+                                    }
+
                                 }
-                            }
-                        });
+                            });
                 }
+                catch (Exception e) {
+                    pDialog1.hide();
+                    final KAlertDialog pDialog2 = new KAlertDialog(Login.this, KAlertDialog.ERROR_TYPE);
+
+                    pDialog2.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+                    pDialog2.setTitleText("Please Provide The Details");
+
+                    pDialog2.setCancelable(false);
+                    pDialog2.show();
+
+                    return;
+                }
+                }
+
         });
         Button signup = findViewById(R.id.signup);
         signup.setOnClickListener(new View.OnClickListener() {
