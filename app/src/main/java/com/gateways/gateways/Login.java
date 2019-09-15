@@ -4,12 +4,14 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.developer.kalert.KAlertDialog;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -23,7 +25,7 @@ public class Login extends AppCompatActivity {
     String emailText,passwordText;
     Button login;
     FirebaseAuth mAuth;
-    String newVariabl8;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,9 +36,16 @@ public class Login extends AppCompatActivity {
         password = findViewById(R.id.password);
         login = findViewById(R.id.login);
         mAuth = FirebaseAuth.getInstance();
+
+
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                final KAlertDialog pDialog1 = new KAlertDialog(Login.this, KAlertDialog.PROGRESS_TYPE);
+                pDialog1.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+                pDialog1.setTitleText("Loading");
+                pDialog1.setCancelable(false);
+                pDialog1.show();
                 emailText = email.getText().toString();
                 passwordText = password.getText().toString();
                 mAuth.signInWithEmailAndPassword(emailText,passwordText)
@@ -69,6 +78,7 @@ public class Login extends AppCompatActivity {
                                             {
                                                 scanner = new Intent(Login.this, ScannerEvent.class);
                                             }
+                                            pDialog1.hide();
                                             scanner.putExtra("role", role);
                                             scanner.putExtra("event", event);
                                             scanner.putExtra("email", mAuth.getCurrentUser().getEmail());
