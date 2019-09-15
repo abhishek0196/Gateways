@@ -369,10 +369,10 @@ public class PeopleListEvent extends RoundedBottomSheetDialogFragment implements
     private void updateSheet(String pname, String cname, String tname,String ename) {
 
         Toast.makeText(getContext(), ""+pname, Toast.LENGTH_SHORT).show();
-        String url = "https://script.google.com/macros/s/AKfycbxB0-qTu2WSPIly8ODWlg95Igu5EoY1nzzMlZA-FoZBGxCYW6Q/exec?collegeName="+cname+"&participantName="+pname+"&teamName="+tname+"&sheetName=123&email="+submittedBy;
+        String url = "https://script.google.com/macros/s/AKfycbxB0-qTu2WSPIly8ODWlg95Igu5EoY1nzzMlZA-FoZBGxCYW6Q/exec?collegeName="+cname+"&participantName="+pname+"&teamName="+tname+"&sheetName="+role+"&email="+submittedBy;
         String urll = getResources().getString(R.string.server_url);
 
-        AndroidNetworking.post(urll+"/sheet/Gaming")
+        AndroidNetworking.post(urll+"/sheet/"+role)
 //        AndroidNetworking.post("http://Gateways-env.d9kekdzq4q.ap-south-1.elasticbeanstalk.com/sheet/Gaming")
 
                 .setTag("test")
