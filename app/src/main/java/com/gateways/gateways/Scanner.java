@@ -99,6 +99,7 @@ public class Scanner extends AppCompatActivity implements ZXingScannerView.Resul
             @Override
             public void onRefresh() {
 //                Toast.makeText(Scanner.this, "hua", Toast.LENGTH_SHORT).show();
+
                 getTeamNames();
                 pullToRefresh.setRefreshing(false);
             }
@@ -149,23 +150,23 @@ public class Scanner extends AppCompatActivity implements ZXingScannerView.Resul
 //                                        Toast.makeText(Scanner.this, "here"+adapter.getPosition(teamNamee), Toast.LENGTH_SHORT).show();
                                         int positionn = teamName.indexOf(teamNamee);
                                         String teamIdd = teamId.get(positionn);
-
+                                        getAlreadyExistingParticipants(teamIdd);
 //                                        // create Toast with user selected value
 //
 //                                        Toast.makeText(Scanner.this, "id-->"+teamIdd, Toast.LENGTH_SHORT).show();
-                                        PeopleListRegistration addBottomDialogFragment =
-                                                PeopleListRegistration.newInstance();
-                                        Bundle bundle = new Bundle();
-                                        bundle.putString("teamIdd", teamIdd);
-                                        bundle.putString("role", role);
-                                        bundle.putString("event", event);
-                                        bundle.putString("submittedBy", submittedBy);
-                                        addBottomDialogFragment.setArguments(bundle);
-                                        addBottomDialogFragment.setCancelable(false);
-
-                                        //addBottomDialogFragment.set
-                                        addBottomDialogFragment.show(getSupportFragmentManager(),
-                                                "add_photo_dialog_fragment");
+//                                        PeopleListRegistration addBottomDialogFragment =
+//                                                PeopleListRegistration.newInstance();
+//                                        Bundle bundle = new Bundle();
+//                                        bundle.putString("teamIdd", teamIdd);
+//                                        bundle.putString("role", role);
+//                                        bundle.putString("event", event);
+//                                        bundle.putString("submittedBy", submittedBy);
+//                                        addBottomDialogFragment.setArguments(bundle);
+//                                        addBottomDialogFragment.setCancelable(false);
+//
+//                                        //addBottomDialogFragment.set
+//                                        addBottomDialogFragment.show(getSupportFragmentManager(),
+//                                                "add_photo_dialog_fragment");
 
 ////                addBottomDialogFragment.readApiRequest(teamIdd);
                                     }
@@ -342,6 +343,7 @@ public class Scanner extends AppCompatActivity implements ZXingScannerView.Resul
                                 });
                                 pDialog.setCancelable(false);
                                 pDialog.show();
+                                pDialog1.hide();
 
                             }
                             else

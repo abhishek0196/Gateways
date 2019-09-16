@@ -130,8 +130,6 @@ public class Login extends AppCompatActivity {
                         scanner.putExtra("event", event);
                         scanner.putExtra("email", mAuth.getCurrentUser().getEmail());
                         startActivity(scanner);
-
-
                     }
                 });
 
