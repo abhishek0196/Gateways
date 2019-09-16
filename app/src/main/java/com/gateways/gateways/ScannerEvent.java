@@ -170,6 +170,7 @@ public class ScannerEvent extends AppCompatActivity implements ZXingScannerView.
     @Override
     public void handleResult(Result result) {
         String qrResult = result.getText();
+        myVib.vibrate(50);
         try {
 
             String split[] = qrResult.split("_");
@@ -177,13 +178,19 @@ public class ScannerEvent extends AppCompatActivity implements ZXingScannerView.
              teamId = split[0];
              participantId = split[1];
              Log.v("dataa",teamId+"---"+participantId);
-            myVib.vibrate(50);
+
            checkOnSpotRegistration(participantId);
 
 
         }
         catch (Exception e)
         {
+            KAlertDialog pDialog;
+            pDialog = new KAlertDialog(ScannerEvent.this, KAlertDialog.ERROR_TYPE);
+            pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+            pDialog.setTitleText("Invalid QR!");
+            pDialog.setCancelable(false);
+            pDialog.show();
             Log.v("dataa",e.toString());
 //            Toast.makeText(this, "Not A Valid QR \n Scan Again  ", Toast.LENGTH_SHORT).show();
             onResume();
