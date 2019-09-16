@@ -39,6 +39,7 @@ import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.StringRequestListener;
 import com.developer.kalert.KAlertDialog;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.zxing.Result;
 
 import org.json.JSONArray;
@@ -154,7 +155,7 @@ public class ScannerEvent extends AppCompatActivity implements ZXingScannerView.
 //        zXingScannerView.stopCamera();
         mScannerView.stopCamera();
     }
-
+    KAlertDialog pDialog1;
     @Override
     public void handleResult(Result result) {
         String qrResult = result.getText();
@@ -166,7 +167,11 @@ public class ScannerEvent extends AppCompatActivity implements ZXingScannerView.
              teamId = split[0];
              participantId = split[1];
              Log.v("dataa",teamId+"---"+participantId);
-
+            pDialog1 = new KAlertDialog(ScannerEvent.this, KAlertDialog.PROGRESS_TYPE);
+            pDialog1.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+            pDialog1.setTitleText("Loading");
+            pDialog1.setCancelable(false);
+            pDialog1.show();
            checkOnSpotRegistration(participantId);
 
 
@@ -207,6 +212,7 @@ public class ScannerEvent extends AppCompatActivity implements ZXingScannerView.
                 .getAsString(new StringRequestListener() {
                     @Override
                     public void onResponse(String response) {
+                        pDialog1.hide();
                         JSONArray jsonarray = null;
 
 //                        Toast.makeText(ScannerEvent.this, "aaya"+response, Toast.LENGTH_SHORT).show();
@@ -263,6 +269,26 @@ Log.v("ff",e.toString());
 
     @Override
     public void onBackPressed() {
+        new KAlertDialog(this, KAlertDialog.WARNING_TYPE)
+                .setTitleText("Sign Out ?")
+                .setContentText("You might have to login again ")
+                .setCancelText("No")
+                .setConfirmText("Yes")
+                .showCancelButton(true)
+                .setCancelClickListener(new KAlertDialog.KAlertClickListener() {
+                    @Override
+                    public void onClick(KAlertDialog sDialog) {
+                        sDialog.cancel();
+                    }
+                })
+                .setConfirmClickListener(new KAlertDialog.KAlertClickListener() {
+                    @Override
+                    public void onClick(KAlertDialog sDialog) {
+                        FirebaseAuth.getInstance().signOut();
+                        ScannerEvent.this.finish();
+                    }
+                })
+                .show();
 //        super.onBackPressed();
         return;
     }

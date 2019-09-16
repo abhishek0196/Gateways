@@ -38,6 +38,7 @@ import com.androidnetworking.interfaces.StringRequestListener;
 import com.developer.kalert.KAlertDialog;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -105,6 +106,11 @@ public class Scanner extends AppCompatActivity implements ZXingScannerView.Resul
 
     }
     private void getTeamNames() {
+        final KAlertDialog pDialog1 = new KAlertDialog(this, KAlertDialog.PROGRESS_TYPE);
+        pDialog1.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+        pDialog1.setTitleText("Loading");
+        pDialog1.setCancelable(false);
+        pDialog1.show();
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("type", "select");
@@ -123,6 +129,7 @@ public class Scanner extends AppCompatActivity implements ZXingScannerView.Resul
                 .getAsString(new StringRequestListener() {
                     @Override
                     public void onResponse(String response) {
+                        pDialog1.hide();
                         JSONArray jsonarray = null;
                         try {
                             jsonarray = new JSONArray(response);
@@ -230,6 +237,26 @@ public class Scanner extends AppCompatActivity implements ZXingScannerView.Resul
     @Override
     public void onBackPressed() {
         //super.onBackPressed();
+        new KAlertDialog(this, KAlertDialog.WARNING_TYPE)
+                .setTitleText("Sign Out ?")
+                .setContentText("You might have to login again ")
+                .setCancelText("No")
+                .setConfirmText("Yes")
+                .showCancelButton(true)
+                .setCancelClickListener(new KAlertDialog.KAlertClickListener() {
+                    @Override
+                    public void onClick(KAlertDialog sDialog) {
+                        sDialog.cancel();
+                    }
+                })
+                .setConfirmClickListener(new KAlertDialog.KAlertClickListener() {
+                    @Override
+                    public void onClick(KAlertDialog sDialog) {
+                        FirebaseAuth.getInstance().signOut();
+                        Scanner.this.finish();
+                    }
+                })
+                .show();
         return;
     }
 
@@ -271,11 +298,6 @@ public class Scanner extends AppCompatActivity implements ZXingScannerView.Resul
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-//        Toast.makeText(this, ""+query, Toast.LENGTH_SHORT).show();
-        Log.v("query",query);
-
-
         final KAlertDialog pDialog1 = new KAlertDialog(this, KAlertDialog.PROGRESS_TYPE);
         pDialog1.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
         pDialog1.setTitleText("Loading");
@@ -293,7 +315,7 @@ public class Scanner extends AppCompatActivity implements ZXingScannerView.Resul
                     @Override
                     public void onResponse(String response) {
                         JSONArray jsonarray = null;
-                        pDialog1.hide();
+
 //                        Toast.makeText(Scanner.this, "aaya"+response, Toast.LENGTH_SHORT).show();
                         try {
                             jsonarray = new JSONArray(response);
@@ -331,7 +353,7 @@ public class Scanner extends AppCompatActivity implements ZXingScannerView.Resul
                                 bundle.putString("teamId", teamId);
 
                                 bundle.putString("submittedBy", submittedBy);
-
+                                pDialog1.hide();
                                 PeopleListRegistration addBottomDialogFragment =
                                         PeopleListRegistration.newInstance();
                                 addBottomDialogFragment.setArguments(bundle);

@@ -32,6 +32,7 @@ import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.StringRequestListener;
 import com.deishelon.roundedbottomsheet.RoundedBottomSheetDialogFragment;
+import com.developer.kalert.KAlertDialog;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -65,6 +66,7 @@ public class PeopleListEvent extends RoundedBottomSheetDialogFragment implements
     TextInputLayout team;
     LinearLayout f;
     TextInputEditText edtteamName;
+    KAlertDialog pDialog1;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -95,6 +97,11 @@ public class PeopleListEvent extends RoundedBottomSheetDialogFragment implements
             submit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    pDialog1 = new KAlertDialog(getContext(), KAlertDialog.PROGRESS_TYPE);
+                    pDialog1.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+                    pDialog1.setTitleText("Loading");
+                    pDialog1.setCancelable(false);
+                    pDialog1.show();
                     try {
 
 ////                        Toast.makeText(getContext(), "Size"+pname.size()+"----"+pname.get(0), Toast.LENGTH_SHORT).show();
@@ -387,7 +394,7 @@ public class PeopleListEvent extends RoundedBottomSheetDialogFragment implements
                 .getAsString(new StringRequestListener() {
                     @Override
                     public void onResponse(String response) {
-
+                        pDialog1.hide();
                         Log.d("data", "DocumentSnapshot data: " + response);
 
                         mCallback = (FragmentToActivity)getContext();

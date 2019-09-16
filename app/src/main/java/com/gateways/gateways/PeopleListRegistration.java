@@ -31,6 +31,7 @@ import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.StringRequestListener;
 import com.deishelon.roundedbottomsheet.RoundedBottomSheetDialogFragment;
+import com.developer.kalert.KAlertDialog;
 import com.google.android.material.button.MaterialButton;
 
 import org.json.JSONArray;
@@ -53,7 +54,9 @@ public class PeopleListRegistration extends RoundedBottomSheetDialogFragment {
     String submittedBy;
     private FragmentToActivity mCallback;
     String event,role;
+    KAlertDialog pDialog2;
     @Override
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -173,6 +176,11 @@ public class PeopleListRegistration extends RoundedBottomSheetDialogFragment {
     }
     void generateView(final String response)
     {
+        final KAlertDialog pDialog1 = new KAlertDialog(getContext(), KAlertDialog.PROGRESS_TYPE);
+        pDialog1.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+        pDialog1.setTitleText("Loading");
+        pDialog1.setCancelable(false);
+        pDialog1.show();
         final ArrayList<String> tags = new ArrayList<String>();
         final ArrayList<String> pname= new ArrayList<String>();
         LinearLayout f = v.findViewById(R.id.frame);
@@ -198,6 +206,7 @@ public class PeopleListRegistration extends RoundedBottomSheetDialogFragment {
             m.setOrientation(LinearLayout.VERTICAL);
             m.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
             m.setGravity(Gravity.BOTTOM);
+            pDialog1.hide();
               for (int i = 0; i < jsonarray.length(); i++) {
                 JSONObject jsonobject = jsonarray.getJSONObject(i);
                 String id = jsonobject.getString("id");
@@ -259,8 +268,14 @@ public class PeopleListRegistration extends RoundedBottomSheetDialogFragment {
 
             ImageButton close = v.findViewById(R.id.close);
             close.setOnClickListener(new View.OnClickListener() {
+
                 @Override
                 public void onClick(View v) {
+                    pDialog2 = new KAlertDialog(getContext(), KAlertDialog.PROGRESS_TYPE);
+                    pDialog2.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+                    pDialog2.setTitleText("Loading");
+                    pDialog2.setCancelable(false);
+                    pDialog2.show();
                     deleteApiTemporaryData(teamId);
                 }
             });
@@ -275,6 +290,11 @@ public class PeopleListRegistration extends RoundedBottomSheetDialogFragment {
             myButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                pDialog2 = new KAlertDialog(getContext(), KAlertDialog.PROGRESS_TYPE);
+                pDialog2.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+                pDialog2.setTitleText("Loading");
+                pDialog2.setCancelable(false);
+                pDialog2.show();
 //                Toast.makeText(getContext(), ""+tags.size(), Toast.LENGTH_SHORT).show();
                 if(tags.size()>0) {
                     writeApiRequest(tags, pname, finalCollegeName, finalTeamName, submittedBy);
@@ -310,6 +330,7 @@ public class PeopleListRegistration extends RoundedBottomSheetDialogFragment {
                 .getAsString(new StringRequestListener() {
                     @Override
                     public void onResponse(String response) {
+                        pDialog2.hide();
 //                        Toast.makeText(getContext(), "hello"+response, Toast.LENGTH_SHORT).show();
                         mCallback = (FragmentToActivity)getContext();
 
