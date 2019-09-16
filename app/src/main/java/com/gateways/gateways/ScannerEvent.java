@@ -38,26 +38,18 @@ import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.StringRequestListener;
 import com.developer.kalert.KAlertDialog;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
+
 import com.google.zxing.Result;
-//import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-
-import me.dm7.barcodescanner.core.IViewFinder;
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
 public class ScannerEvent extends AppCompatActivity implements ZXingScannerView.ResultHandler,FragmentToActivity{
     public ZXingScannerView mScannerView;
-    //private ZXingScannerView zXingScannerView;
     private Vibrator myVib;
     String role,event,submittedBy;
     FragmentManager manager;
@@ -72,13 +64,9 @@ public class ScannerEvent extends AppCompatActivity implements ZXingScannerView.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scanner_event);
-
-
-
         LayoutInflater inflator = (LayoutInflater) this
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View v = inflator.inflate(R.layout.actionbar, null);
-
         Intent intent = getIntent();
         Bundle bd = intent.getExtras();
         if(bd != null)
