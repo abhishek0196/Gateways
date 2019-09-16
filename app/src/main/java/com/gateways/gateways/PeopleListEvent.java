@@ -82,6 +82,11 @@ public class PeopleListEvent extends RoundedBottomSheetDialogFragment implements
             v =  inflater.inflate(R.layout.fragment_people_list_event, container, false);
             TextView eventNamee = v.findViewById(R.id.titlee);
             eventNamee.setText(event);
+            Typeface typeface = ResourcesCompat.getFont(getContext(),R.font.palyfair);
+
+            eventNamee.setTypeface(typeface);
+            eventNamee.setTextColor(Color.parseColor("#23374d"));
+
             Button add = v.findViewById(R.id.add);
             add.setOnClickListener(new View.OnClickListener() {
                 @Override

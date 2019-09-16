@@ -60,6 +60,7 @@ android:id="@+id/upperFrame">
         android:text="Add"
         android:id="@+id/add"
         android:layout_alignParentLeft="true"
+        android:theme="@style/MaterialButton.Pink"
 
         />
     <Button

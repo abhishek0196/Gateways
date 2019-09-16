@@ -257,8 +257,7 @@ public class PeopleListRegistration extends RoundedBottomSheetDialogFragment {
             TextView title = v.findViewById(R.id.titlee);
             title.setText(teamName);
             Typeface typeface = ResourcesCompat.getFont(getContext(),R.font.palyfair);
-//            Typeface custom_font = Typeface.createFromAsset(getActivity().getAssets(), "font/playfairdisplayblack.ttf");
-//            Typeface custom_font = Typeface.createFromFile(getActivity().getResources().getFont())
+
             title.setTypeface(typeface);
             title.setTextColor(Color.parseColor("#23374d"));
 

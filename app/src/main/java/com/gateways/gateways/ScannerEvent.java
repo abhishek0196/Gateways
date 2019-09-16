@@ -175,6 +175,7 @@ public class ScannerEvent extends AppCompatActivity implements ZXingScannerView.
            checkOnSpotRegistration(participantId);
 
 
+
         }
         catch (Exception e)
         {
