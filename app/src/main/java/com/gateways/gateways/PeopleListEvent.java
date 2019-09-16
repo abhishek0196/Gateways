@@ -71,11 +71,15 @@ public class PeopleListEvent extends RoundedBottomSheetDialogFragment implements
 
 
         try {
+
             role  = getArguments().getString("role");
             event= getArguments().getString("event");
             participantId.add(getArguments().getString("participantId"));
+
             submittedBy =  getArguments().getString("submittedBy");
             v =  inflater.inflate(R.layout.fragment_people_list_event, container, false);
+            TextView eventNamee = v.findViewById(R.id.titlee);
+            eventNamee.setText(event);
             Button add = v.findViewById(R.id.add);
             add.setOnClickListener(new View.OnClickListener() {
                 @Override
