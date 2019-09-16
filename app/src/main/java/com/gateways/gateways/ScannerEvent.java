@@ -20,7 +20,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SearchView;
-import android.widget.Toast;
+//import android.widget.Toast;
 import android.os.Vibrator;
 
 import androidx.annotation.NonNull;
@@ -109,9 +109,9 @@ public class ScannerEvent extends AppCompatActivity implements ZXingScannerView.
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Toast.makeText(this, "granteddd", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(this, "granteddd", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(this, "granteddd not", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(this, "granteddd not", Toast.LENGTH_SHORT).show();
                 }
                 return;
             }
@@ -125,7 +125,7 @@ public class ScannerEvent extends AppCompatActivity implements ZXingScannerView.
     protected void onResume() {
         super.onResume();
 //        scan(this.zXingScannerView);
-//        Toast.makeText(this, "Resumed", Toast.LENGTH_SHORT).show();
+////        Toast.makeText(this, "Resumed", Toast.LENGTH_SHORT).show();
         scan(this.mScannerView);
 
     }
@@ -133,15 +133,15 @@ public class ScannerEvent extends AppCompatActivity implements ZXingScannerView.
     public void communicate(String comm)
     {
         onResume();
-//        Toast.makeText(this, "comm->>>>>>>>>>>>>>>>>>>> "+comm, Toast.LENGTH_SHORT).show();
+////        Toast.makeText(this, "comm->>>>>>>>>>>>>>>>>>>> "+comm, Toast.LENGTH_SHORT).show();
         if(comm.equals("End"))
         {
-            Toast.makeText(this, "close", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, "close", Toast.LENGTH_SHORT).show();
             mCallback = null;
         }
         else
         {
-            Toast.makeText(this, "add", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, "add", Toast.LENGTH_SHORT).show();
             mCallback = (PeopleListEvent)addBottomDialogFragment;
         }
 
@@ -185,7 +185,7 @@ public class ScannerEvent extends AppCompatActivity implements ZXingScannerView.
         catch (Exception e)
         {
             Log.v("dataa",e.toString());
-            Toast.makeText(this, "Not A Valid QR \n Scan Again  ", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, "Not A Valid QR \n Scan Again  ", Toast.LENGTH_SHORT).show();
             onResume();
         }
 
@@ -214,12 +214,12 @@ public class ScannerEvent extends AppCompatActivity implements ZXingScannerView.
                     public void onResponse(String response) {
                         JSONArray jsonarray = null;
 
-                        Toast.makeText(ScannerEvent.this, "aaya"+response, Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(ScannerEvent.this, "aaya"+response, Toast.LENGTH_SHORT).show();
                         try {
                             jsonarray = new JSONArray(response);
                             if (jsonarray.length() == 0) {
 
-                                Toast.makeText(ScannerEvent.this, "nhi hoga", Toast.LENGTH_SHORT).show();
+//                                Toast.makeText(ScannerEvent.this, "nhi hoga", Toast.LENGTH_SHORT).show();
                                 KAlertDialog pDialog = new KAlertDialog(ScannerEvent.this, KAlertDialog.ERROR_TYPE);
                                 pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
                                 pDialog.setTitleText("Registration Is Incomplete!");
@@ -278,7 +278,7 @@ Log.v("ff",e.toString());
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.CAMERA)
                 != PackageManager.PERMISSION_GRANTED) {
-            Toast.makeText(this, "not granted", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, "not granted", Toast.LENGTH_SHORT).show();
             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.CAMERA},
                     1);
@@ -300,7 +300,7 @@ Log.v("ff",e.toString());
                 // result of the request.
             }
         } else {
-            Toast.makeText(this, "granted", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, "granted", Toast.LENGTH_SHORT).show();
             // Permission has already been granted
         }
 

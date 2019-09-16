@@ -25,7 +25,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
+//import android.widget.Toast;
 
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.Priority;
@@ -64,7 +64,7 @@ public class PeopleListEvent extends RoundedBottomSheetDialogFragment implements
     EditText title;
     TextInputLayout team;
     LinearLayout f;
-
+    TextInputEditText edtteamName;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -93,10 +93,10 @@ public class PeopleListEvent extends RoundedBottomSheetDialogFragment implements
                 public void onClick(View v) {
                     try {
 
-//                        Toast.makeText(getContext(), "Size"+pname.size()+"----"+pname.get(0), Toast.LENGTH_SHORT).show();
+////                        Toast.makeText(getContext(), "Size"+pname.size()+"----"+pname.get(0), Toast.LENGTH_SHORT).show();
                         if(pname.size()>1)
                         {
-                            teamName = title.getText().toString();
+                            teamName = edtteamName.getText().toString();
                             writeApiRequest(tags,pname, finalCollegeName, teamName,event,submittedBy);
                         }
                         else if(pname.size() == 1)
@@ -190,8 +190,8 @@ public class PeopleListEvent extends RoundedBottomSheetDialogFragment implements
         JSONObject jsonObject = new JSONObject();
         Log.v("daa",query);
         Log.v("daa",pnamee);
-        Toast.makeText(getContext(), ""+pnamee, Toast.LENGTH_SHORT).show();
-        Toast.makeText(getContext(), ""+query, Toast.LENGTH_LONG).show();
+//        Toast.makeText(getContext(), ""+pnamee, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getContext(), ""+query, Toast.LENGTH_LONG).show();
         try {
             jsonObject.put("type", "insert");
             jsonObject.put("query", query);
@@ -211,7 +211,7 @@ public class PeopleListEvent extends RoundedBottomSheetDialogFragment implements
                 .getAsString(new StringRequestListener() {
                     @Override
                     public void onResponse(String response) {
-//                        Toast.makeText(getContext(), ""+response, Toast.LENGTH_SHORT).show();
+////                        Toast.makeText(getContext(), ""+response, Toast.LENGTH_SHORT).show();
                         updateSheet(finalPnamee,tname,cname,eventName);
                         //generateView(response);
                     }
@@ -267,13 +267,14 @@ public class PeopleListEvent extends RoundedBottomSheetDialogFragment implements
 //                team.setBoxBackgroundColor(Color.BLACK);
                 team.setBoxBackgroundMode(TextInputLayout.BOX_BACKGROUND_OUTLINE);
                 team.setBoxCornerRadii(5, 5, 5, 5);
-                TextInputEditText edtteamName = new TextInputEditText(team.getContext());
+                edtteamName = new TextInputEditText(team.getContext());
+                edtteamName.setTextColor(Color.BLACK);
                 edtteamName.requestFocus();
                 team.addView(edtteamName);
-                title= new     EditText(getContext());
-                title.setHint("Enter Team Name");
-                title.setTextSize(30);
-                title.setGravity(Gravity.CENTER);
+//                title= new     EditText(getContext());
+//                title.setHint("Enter Team Name");
+//                title.setTextSize(30);
+//                title.setGravity(Gravity.CENTER);
                 f.addView(team);
 
             }
@@ -289,13 +290,11 @@ public class PeopleListEvent extends RoundedBottomSheetDialogFragment implements
 //                team.setBoxBackgroundColor(Color.BLACK);
                 team.setBoxBackgroundMode(TextInputLayout.BOX_BACKGROUND_OUTLINE);
                 team.setBoxCornerRadii(5, 5, 5, 5);
-                TextInputEditText edtteamName = new TextInputEditText(team.getContext());
+                edtteamName = new TextInputEditText(team.getContext());
+                edtteamName.setTextColor(Color.BLACK);
                 edtteamName.requestFocus();
                 team.addView(edtteamName);
-                title= new     EditText(getContext());
-                title.setHint("Enter Team Name");
-                title.setTextSize(30);
-                title.setGravity(Gravity.CENTER);
+
                 f.addView(team);
                 newheight = height * 0.35;
             }
@@ -342,7 +341,7 @@ public class PeopleListEvent extends RoundedBottomSheetDialogFragment implements
 
                             tags.add("" + buttonView.getTag());
                             pname.add("" + buttonView.getText());
-//                                Toast.makeText(getContext(), "" + tags.size(), Toast.LENGTH_SHORT).show();
+////                                Toast.makeText(getContext(), "" + tags.size(), Toast.LENGTH_SHORT).show();
                         } else {
                             tags.remove("" + buttonView.getTag());
                             pname.remove("" + buttonView.getText());
@@ -368,7 +367,7 @@ public class PeopleListEvent extends RoundedBottomSheetDialogFragment implements
 
     private void updateSheet(String pname, String cname, String tname,String ename) {
 
-        Toast.makeText(getContext(), ""+pname, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getContext(), ""+pname, Toast.LENGTH_SHORT).show();
         String url = "https://script.google.com/macros/s/AKfycbxB0-qTu2WSPIly8ODWlg95Igu5EoY1nzzMlZA-FoZBGxCYW6Q/exec?collegeName="+cname+"&participantName="+pname+"&teamName="+tname+"&sheetName="+event+"&email="+submittedBy;
         String urll = getResources().getString(R.string.server_url);
 
@@ -404,12 +403,12 @@ public class PeopleListEvent extends RoundedBottomSheetDialogFragment implements
     public void onAttach(Context context) {
         super.onAttach(context);
         ((ScannerEvent)getActivity()).mCallback = this;
-//        Toast.makeText(getContext(), ""+this, Toast.LENGTH_SHORT).show();
+////        Toast.makeText(getContext(), ""+this, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void communicate(String comm) {
-//        Toast.makeText(getContext(), "datat->>>"+comm  , Toast.LENGTH_SHORT).show();
+////        Toast.makeText(getContext(), "datat->>>"+comm  , Toast.LENGTH_SHORT).show();
         participantId.add(comm);
         f.removeAllViews();
         readApiRequest(participantId);

@@ -41,11 +41,11 @@ public class Login extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
        user = mAuth.getCurrentUser();
         pDialog1 = new KAlertDialog(Login.this, KAlertDialog.PROGRESS_TYPE);
-//        if(user != null)
-//        {
-//
-//            successfulLogin();
-//        }
+        if(user != null)
+        {
+
+            successfulLogin();
+        }
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -68,7 +68,7 @@ public class Login extends AppCompatActivity {
                                 public void onComplete(@NonNull Task<AuthResult> task) {
                                     if (task.isSuccessful()) {
                                         // Sign in success, update UI with the signed-in user's information
-                                        Toast.makeText(Login.this, "Successful", Toast.LENGTH_SHORT).show();
+//                                        Toast.makeText(Login.this, "Successful", Toast.LENGTH_SHORT).show();
                                         //Log.d("", "signInWithEmail:success");
                                         successfulLogin();
                                     } else {
@@ -112,6 +112,7 @@ public class Login extends AppCompatActivity {
     }
     private  void successfulLogin()
     {
+        user = mAuth.getCurrentUser();
         user.getIdToken(true)
                 .addOnSuccessListener(new OnSuccessListener<GetTokenResult>() {
                     @Override
@@ -124,7 +125,7 @@ public class Login extends AppCompatActivity {
                         //+"event:"+value1.toString()
                         //Log.v("avvvv",result.);
                         Intent scanner  = new Intent();
-                        Toast.makeText(Login.this, ""+role, Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(Login.this, ""+role, Toast.LENGTH_SHORT).show();
                         if(role.equals("Registrar")) {
                             scanner = new Intent(Login.this, Scanner.class);
                         }
