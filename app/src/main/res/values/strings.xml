@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">Gateways</string>
 
-    <string name="server_url">https://gateways-c3a50.appspot.com/</string>
-
+    <!--<string name="server_url">https://gateways-c3a50.appspot.com/</string>-->
+    <string name="server_url">http://Gateways-env.d9kekdzq4q.ap-south-1.elasticbeanstalk.com/</string>
     <string-array name="Roles">
         <item>Registrar</item>
         <item>Foodie</item>
