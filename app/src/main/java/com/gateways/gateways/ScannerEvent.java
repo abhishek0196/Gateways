@@ -172,8 +172,8 @@ public class ScannerEvent extends AppCompatActivity implements ZXingScannerView.
             pDialog1.setTitleText("Loading");
             pDialog1.setCancelable(false);
             pDialog1.show();
-           checkOnSpotRegistration(participantId);
 
+            checkParticipantAlreadyExists(participantId);
 
 
         }
@@ -189,6 +189,104 @@ public class ScannerEvent extends AppCompatActivity implements ZXingScannerView.
 //            Toast.makeText(this, "Not A Valid QR \n Scan Again  ", Toast.LENGTH_SHORT).show();
             onResume();
         }
+
+    }
+
+    private void checkParticipantAlreadyExists(final String participantId) {
+        String query = "select gateways.events.event_name from gateways.events where id  ="+participantId+";";
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("type", "select");
+            jsonObject.put("query", query);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        String url = getResources().getString(R.string.server_url);
+
+        AndroidNetworking.post(url+"/get")
+//        AndroidNetworking.post("http://Gateways-env.d9kekdzq4q.ap-south-1.elasticbeanstalk.com/get")
+                .addJSONObjectBody(jsonObject) // posting json
+                .setTag("test")
+                .setPriority(Priority.MEDIUM)
+                .build()
+                .getAsString(new StringRequestListener() {
+                    @Override
+                    public void onResponse(String response) {
+                        pDialog1.hide();
+                        JSONArray jsonarray = null;
+
+//                        Toast.makeText(ScannerEvent.this, "aaya"+response, Toast.LENGTH_SHORT).show();
+                        try {
+                            jsonarray = new JSONArray(response);
+                            if (jsonarray.length() > 0) {
+
+                                String str = "";
+                                for(int i = 0 ; i < jsonarray.length() ; i++)
+                                {
+                                    JSONObject jsonobject = jsonarray.getJSONObject(i);
+                                    String event_name = jsonobject.getString("event_name");
+                                    str = str + event_name + "\n";
+                                }
+//                                Toast.makeText(ScannerEvent.this, "nhi hoga", Toast.LENGTH_SHORT).show();
+                                new KAlertDialog(ScannerEvent.this, KAlertDialog.WARNING_TYPE)
+                                        .setTitleText("Multiple Event Participation ?")
+                                        .setContentText(str)
+                                        .setCancelText("Deny")
+                                        .setConfirmText("Allow")
+                                        .showCancelButton(true)
+                                        .setCancelClickListener(new KAlertDialog.KAlertClickListener() {
+                                            @Override
+                                            public void onClick(KAlertDialog sDialog) {
+                                                onResume();
+                                                sDialog.cancel();
+                                            }
+                                        })
+                                        .setConfirmClickListener(new KAlertDialog.KAlertClickListener() {
+                                            @Override
+                                            public void onClick(KAlertDialog sDialog) {
+                                                sDialog.cancel();
+                                                manager = getSupportFragmentManager();
+                                                FragmentTransaction transaction = manager.beginTransaction();
+                                                Bundle bundle = new Bundle();
+                                                bundle.putString("role", role);
+                                                bundle.putString("event", event);
+                                                bundle.putString("teamId", teamId);
+                                                bundle.putString("participantId", participantId);
+                                                bundle.putString("submittedBy", submittedBy);
+
+
+                                                if(mCallback!=null) {
+                                                    mCallback.communicate(participantId);
+                                                }
+                                                else {
+                                                    addBottomDialogFragment = PeopleListEvent.newInstance();
+                                                    addBottomDialogFragment.setArguments(bundle);
+                                                    addBottomDialogFragment.setCancelable(false);
+                                                    transaction.addToBackStack(null);
+                                                    transaction.commit();
+                                                    addBottomDialogFragment.show(getSupportFragmentManager(),
+                                                            "event");
+                                                }
+                                            }
+                                        })
+                                        .show();
+
+                            }
+                            else {
+                                checkOnSpotRegistration(participantId);
+                            }
+
+                        }
+                        catch (JSONException e)
+                        {
+                            Log.v("ff",e.toString());
+                        }
+                    }
+                    @Override
+                    public void onError(ANError anError) {
+                        Log.v("data",anError.getErrorBody());
+                    }
+                });
 
     }
 
