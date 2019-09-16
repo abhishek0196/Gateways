@@ -24,7 +24,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
+//import android.widget.Toast;
 
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.Priority;
@@ -76,7 +76,7 @@ public class PeopleListRegistration extends RoundedBottomSheetDialogFragment {
     }
 
     public void readApiRequest(final String  teamId) {
-        Toast.makeText(getContext(), ""+teamId, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getContext(), ""+teamId, Toast.LENGTH_SHORT).show();
 
         final JSONObject jsonObject = new JSONObject();
         try {
@@ -98,13 +98,13 @@ public class PeopleListRegistration extends RoundedBottomSheetDialogFragment {
                 .getAsString(new StringRequestListener() {
                     @Override
                     public void onResponse(String response) {
-                        Toast.makeText(getContext(), "response"+response, Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(getContext(), "response"+response, Toast.LENGTH_SHORT).show();
                         JSONArray jsonarray = null;
                         try {
                             jsonarray = new JSONArray(response);
                             if(jsonarray.length() == 0)
                             {
-                                Toast.makeText(getContext(), "Empty", Toast.LENGTH_SHORT).show();
+//                                Toast.makeText(getContext(), "Empty", Toast.LENGTH_SHORT).show();
                             }
                             else
                             {
@@ -119,13 +119,13 @@ public class PeopleListRegistration extends RoundedBottomSheetDialogFragment {
                     }
                     @Override
                     public void onError(ANError anError) {
-                        Toast.makeText(getContext(), "error"+teamId ,Toast.LENGTH_LONG   ).show();
+//                        Toast.makeText(getContext(), "error"+teamId ,Toast.LENGTH_LONG   ).show();
                         Log.v("data",anError.getErrorBody());
                     }
                 });
     }
     private void writeApiRequest(ArrayList<String> tags, ArrayList<String> pname, final String tname, final String cname, String submittedBy) {
-//        Toast.makeText(getContext(), ""+teamId, Toast.LENGTH_SHORT).show();
+////        Toast.makeText(getContext(), ""+teamId, Toast.LENGTH_SHORT).show();
         String query = "insert into gateways.attendance values";
 
         String pnamee = "";
@@ -138,7 +138,7 @@ public class PeopleListRegistration extends RoundedBottomSheetDialogFragment {
         pnamee = pnamee.substring(0,pnamee.lastIndexOf(','));
 
         query = query.substring(0,query.lastIndexOf(','));
-//        Toast.makeText(getContext(), ""+query, Toast.LENGTH_SHORT).show();
+////        Toast.makeText(getContext(), ""+query, Toast.LENGTH_SHORT).show();
 //
         JSONObject jsonObject = new JSONObject();
         try {
@@ -160,7 +160,7 @@ public class PeopleListRegistration extends RoundedBottomSheetDialogFragment {
                 .getAsString(new StringRequestListener() {
                     @Override
                     public void onResponse(String response) {
-                        Toast.makeText(getContext(), ""+response, Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(getContext(), ""+response, Toast.LENGTH_SHORT).show();
                         updateSheet(finalPnamee,tname,cname);
                         //generateView(response);
                     }
@@ -202,10 +202,10 @@ public class PeopleListRegistration extends RoundedBottomSheetDialogFragment {
                 JSONObject jsonobject = jsonarray.getJSONObject(i);
                 String id = jsonobject.getString("id");
 
-//                Toast.makeText(getContext(), ""+id, Toast.LENGTH_SHORT).show();
+////                Toast.makeText(getContext(), ""+id, Toast.LENGTH_SHORT).show();
                 int attendance = jsonobject.getInt("attendancee");
                 String name = jsonobject.getString("participant_name");
-//                Toast.makeText(getContext(), "" + id, Toast.LENGTH_SHORT).show();
+////                Toast.makeText(getContext(), "" + id, Toast.LENGTH_SHORT).show();
                 scb = new CheckBox(getContext());
                 scb.setTextColor(Color.parseColor("#23374d"));
 
@@ -217,7 +217,7 @@ public class PeopleListRegistration extends RoundedBottomSheetDialogFragment {
                     scb.setEnabled(false);
                 }
                 scb.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 150));
-//                Toast.makeText(getActivity(), ""+participantNames.get(i), Toast.LENGTH_SHORT).show();
+////                Toast.makeText(getActivity(), ""+participantNames.get(i), Toast.LENGTH_SHORT).show();
                 scb.setText(name);
                 scb.setGravity(Gravity.CENTER | Gravity.LEFT);
                 scb.setTextSize(25);
@@ -231,10 +231,10 @@ public class PeopleListRegistration extends RoundedBottomSheetDialogFragment {
                         @Override
                         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                             if (isChecked) {
-//                                Toast.makeText(getContext(), "" + buttonView.getTag(), Toast.LENGTH_SHORT).show();
+////                                Toast.makeText(getContext(), "" + buttonView.getTag(), Toast.LENGTH_SHORT).show();
                                 tags.add("" + buttonView.getTag());
                                 pname.add("" + buttonView.getText());
-//                                Toast.makeText(getContext(), "" + tags.size(), Toast.LENGTH_SHORT).show();
+////                                Toast.makeText(getContext(), "" + tags.size(), Toast.LENGTH_SHORT).show();
                             } else {
                                 tags.remove("" + buttonView.getTag());
                                 pname.remove("" + buttonView.getText());
@@ -275,7 +275,7 @@ public class PeopleListRegistration extends RoundedBottomSheetDialogFragment {
             myButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(), ""+tags.size(), Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getContext(), ""+tags.size(), Toast.LENGTH_SHORT).show();
                 if(tags.size()>0) {
                     writeApiRequest(tags, pname, finalCollegeName, finalTeamName, submittedBy);
 
@@ -310,7 +310,7 @@ public class PeopleListRegistration extends RoundedBottomSheetDialogFragment {
                 .getAsString(new StringRequestListener() {
                     @Override
                     public void onResponse(String response) {
-                        Toast.makeText(getContext(), "hello"+response, Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(getContext(), "hello"+response, Toast.LENGTH_SHORT).show();
                         mCallback = (FragmentToActivity)getContext();
 
                         mCallback.communicate("End");
@@ -327,7 +327,7 @@ public class PeopleListRegistration extends RoundedBottomSheetDialogFragment {
 
 
     private void writeApiRequestTemporary(String id,String submittedBy) {
-        Toast.makeText(getContext(), "teamm"+id, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getContext(), "teamm"+id, Toast.LENGTH_SHORT).show();
         String query = "insert into gateways.temporaryData values(\""+id+"\",\""+submittedBy+"\");";
         JSONObject jsonObject = new JSONObject();
         try {
@@ -348,8 +348,8 @@ public class PeopleListRegistration extends RoundedBottomSheetDialogFragment {
                 .getAsString(new StringRequestListener() {
                     @Override
                     public void onResponse(String response) {
-                        Toast.makeText(getContext(), "hello"+response, Toast.LENGTH_SHORT).show();
-Log.v("dattta",response);
+//                        Toast.makeText(getContext(), "hello"+response, Toast.LENGTH_SHORT).show();
+                            Log.v("dattta",response);
                         //generateView(response);
                     }
                     @Override
@@ -362,7 +362,7 @@ Log.v("dattta",response);
 
 
     private void updateSheet(String pname, String cname, String tname) {
-        Toast.makeText(getContext(), ""+pname, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getContext(), ""+pname, Toast.LENGTH_SHORT).show();
         String url = "https://script.google.com/macros/s/AKfycbxB0-qTu2WSPIly8ODWlg95Igu5EoY1nzzMlZA-FoZBGxCYW6Q/exec?collegeName="+cname+"&participantName="+pname+"&teamName="+tname+"&sheetName=Registration&email="+submittedBy;
 
         AndroidNetworking.post("https://us-central1-gateways-c3a50.cloudfunctions.net/helloWorld")

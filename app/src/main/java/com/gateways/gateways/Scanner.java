@@ -20,7 +20,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SearchView;
-import android.widget.Toast;
+//import android.widget.Toast;
 import android.os.Vibrator;
 
 import androidx.annotation.NonNull;
@@ -79,7 +79,7 @@ public class Scanner extends AppCompatActivity implements ZXingScannerView.Resul
             role = (String) bd.get("role");
             event = (String) bd.get("event");
             submittedBy = bd.getString("email");
-            Toast.makeText(this, "............"+submittedBy, Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, "............"+submittedBy, Toast.LENGTH_SHORT).show();
 
         }
 //        ActionBar actionBar = getSupportActionBar();
@@ -97,7 +97,7 @@ public class Scanner extends AppCompatActivity implements ZXingScannerView.Resul
         pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                Toast.makeText(Scanner.this, "hua", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(Scanner.this, "hua", Toast.LENGTH_SHORT).show();
                 getTeamNames();
                 pullToRefresh.setRefreshing(false);
             }
@@ -139,13 +139,13 @@ public class Scanner extends AppCompatActivity implements ZXingScannerView.Resul
                                     @Override
                                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                                         String teamNamee = parent.getItemAtPosition(position).toString();
-                                        Toast.makeText(Scanner.this, "here"+adapter.getPosition(teamNamee), Toast.LENGTH_SHORT).show();
+//                                        Toast.makeText(Scanner.this, "here"+adapter.getPosition(teamNamee), Toast.LENGTH_SHORT).show();
                                         int positionn = teamName.indexOf(teamNamee);
                                         String teamIdd = teamId.get(positionn);
 
-                                        // create Toast with user selected value
+//                                        // create Toast with user selected value
 //
-                                        Toast.makeText(Scanner.this, "id-->"+teamIdd, Toast.LENGTH_SHORT).show();
+//                                        Toast.makeText(Scanner.this, "id-->"+teamIdd, Toast.LENGTH_SHORT).show();
                                         PeopleListRegistration addBottomDialogFragment =
                                                 PeopleListRegistration.newInstance();
                                         Bundle bundle = new Bundle();
@@ -172,7 +172,7 @@ public class Scanner extends AppCompatActivity implements ZXingScannerView.Resul
                     }
                     @Override
                     public void onError(ANError anError) {
-                        Toast.makeText(Scanner.this, "error"+anError.getErrorBody(),Toast.LENGTH_LONG   ).show();
+//                        Toast.makeText(Scanner.this, "error"+anError.getErrorBody(),Toast.LENGTH_LONG   ).show();
                         Log.v("data",anError.getErrorBody());
                     }
                 });
@@ -187,9 +187,9 @@ public class Scanner extends AppCompatActivity implements ZXingScannerView.Resul
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Toast.makeText(this, "granteddd", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(this, "granteddd", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(this, "granteddd not", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(this, "granteddd not", Toast.LENGTH_SHORT).show();
                 }
                 return;
             }
@@ -203,7 +203,7 @@ public class Scanner extends AppCompatActivity implements ZXingScannerView.Resul
     protected void onResume() {
         super.onResume();
 //        scan(this.zXingScannerView);
-//        Toast.makeText(this, "Resumed", Toast.LENGTH_SHORT).show();
+////        Toast.makeText(this, "Resumed", Toast.LENGTH_SHORT).show();
        scan(this.mScannerView);
     }
 
@@ -246,7 +246,7 @@ public class Scanner extends AppCompatActivity implements ZXingScannerView.Resul
         String split[] = qrResult.split("_");
         String teamId = split[0];
         String participantId = split[1];
-      Toast.makeText(getApplicationContext(),result.getText()+"---"+teamId+"---"+participantId,Toast.LENGTH_SHORT).show();
+//      Toast.makeText(getApplicationContext(),result.getText()+"---"+teamId+"---"+participantId,Toast.LENGTH_SHORT).show();
 //        apiRequest();
         myVib.vibrate(50);
 //        bundle.putString("submittedBy", "dummy");
@@ -272,7 +272,7 @@ public class Scanner extends AppCompatActivity implements ZXingScannerView.Resul
             e.printStackTrace();
         }
 
-        Toast.makeText(this, ""+query, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, ""+query, Toast.LENGTH_SHORT).show();
         Log.v("query",query);
 
 
@@ -294,7 +294,7 @@ public class Scanner extends AppCompatActivity implements ZXingScannerView.Resul
                     public void onResponse(String response) {
                         JSONArray jsonarray = null;
                         pDialog1.hide();
-                        Toast.makeText(Scanner.this, "aaya"+response, Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(Scanner.this, "aaya"+response, Toast.LENGTH_SHORT).show();
                         try {
                             jsonarray = new JSONArray(response);
                             if(jsonarray.length() > 0)
@@ -342,7 +342,7 @@ public class Scanner extends AppCompatActivity implements ZXingScannerView.Resul
                                         "add_photo_dialog_fragment");
                             }
                         } catch (Exception e) {
-                            Toast.makeText(Scanner.this, ""+e.toString(), Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(Scanner.this, ""+e.toString(), Toast.LENGTH_SHORT).show();
                             e.printStackTrace();
                         }
 //                        Log.v("data",response);
@@ -350,7 +350,7 @@ public class Scanner extends AppCompatActivity implements ZXingScannerView.Resul
                     }
                     @Override
                     public void onError(ANError anError) {
-                        Toast.makeText(Scanner.this, "error"+anError.getErrorBody(),Toast.LENGTH_LONG   ).show();
+//                        Toast.makeText(Scanner.this, "error"+anError.getErrorBody(),Toast.LENGTH_LONG   ).show();
                         Log.v("data",anError.getErrorBody());
                     }
                 });
@@ -364,7 +364,7 @@ public class Scanner extends AppCompatActivity implements ZXingScannerView.Resul
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.CAMERA)
                 != PackageManager.PERMISSION_GRANTED) {
-            Toast.makeText(this, "not granted", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, "not granted", Toast.LENGTH_SHORT).show();
             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.CAMERA},
                     1);
@@ -386,7 +386,7 @@ public class Scanner extends AppCompatActivity implements ZXingScannerView.Resul
                 // result of the request.
             }
         } else {
-            Toast.makeText(this, "granted", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, "granted", Toast.LENGTH_SHORT).show();
             // Permission has already been granted
         }
 
