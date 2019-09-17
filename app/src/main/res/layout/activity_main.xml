@@ -118,7 +118,7 @@ android:background="#23374d"
         android:background="#EE9B9B"
         android:padding="16dp"
         android:text="Signup"
-        android:visibility="gone"
+
         android:textAllCaps="false"
         android:textColor="#ECE7E7"
         android:textSize="20dp"

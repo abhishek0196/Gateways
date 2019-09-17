@@ -289,6 +289,16 @@ public class PeopleListRegistration extends RoundedBottomSheetDialogFragment {
             myButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(tags.size()==0)
+                {
+                    pDialog2 = new KAlertDialog(getContext(), KAlertDialog.ERROR_TYPE);
+                    pDialog2.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+                    pDialog2.setTitleText("Empty Set");
+                    pDialog2.setContentText("Please Select People to Submit");
+                    pDialog2.setCancelable(false);
+                    pDialog2.show();
+                    return;
+                }
                 pDialog2 = new KAlertDialog(getContext(), KAlertDialog.PROGRESS_TYPE);
                 pDialog2.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
                 pDialog2.setTitleText("Loading");
